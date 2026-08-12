@@ -249,8 +249,10 @@ const sharedStyles = `
     --radial-shape-clip: path("M54 132 C41 125 27 115 17 101 C7 87 2 68 5 49 C8 28 22 10 39 4 C49 0 59 0 69 4 C86 10 100 28 103 49 C106 68 101 87 91 101 C81 115 67 125 54 132 Z");
   }
   :host([shape="hex"]) {
+    --radial-option-width: 112px;
+    --radial-option-height: 97px;
     --radial-option-radius: 0;
-    --radial-shape-clip: polygon(22% 0,78% 0,100% 50%,78% 100%,22% 100%,0 50%);
+    --radial-shape-clip: polygon(25% 0,75% 0,100% 50%,75% 100%,25% 100%,0 50%);
   }
   :host([shape="tech"]) {
     --radial-option-width: 108px;
