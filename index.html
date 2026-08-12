@@ -7,59 +7,59 @@
   <script type="module" src="./dist/radial-select.js"></script>
   <style>
     * { box-sizing: border-box; }
-    :root { font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: #16241f; }
-    body { margin: 0; min-height: 100vh; background: linear-gradient(180deg,#f7faf8 0%,#edf5f1 100%); }
-    main { width: min(1180px, calc(100% - 32px)); margin: 0 auto; padding: 64px 0 80px; }
-    header { max-width: 760px; margin-bottom: 42px; }
-    .eyebrow { font-size: .78rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: #39715f; }
-    h1 { margin: 10px 0 12px; font-size: clamp(2.3rem,6vw,4.6rem); line-height: .96; letter-spacing: -.055em; }
-    .lede { margin: 0; max-width: 660px; color: #60746d; font-size: 1.12rem; line-height: 1.65; }
-    .demo-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 24px; }
-    .demo-card { min-width: 0; background: rgba(255,255,255,.82); border: 1px solid #d8e5df; border-radius: 28px; padding: 30px; box-shadow: 0 24px 70px rgba(31,70,57,.07); overflow: hidden; }
-    .tag { display:inline-flex; padding:7px 11px; border-radius:999px; background:#e8f3ee; color:#285b4a; font:700 .78rem ui-monospace,SFMono-Regular,Menlo,monospace; }
-    .demo-card h2 { margin: 16px 0 7px; font-size: 1.45rem; letter-spacing: -.025em; }
-    .demo-card > p { margin: 0; color: #697b75; line-height: 1.55; min-height: 48px; }
-    .stage { display: grid; place-items: center; min-height: 520px; margin: 10px -18px 0; }
-    .result { display:inline-flex; align-items:center; min-height:38px; padding:8px 13px; border-radius:12px; background:#f0f5f2; color:#38574d; font-size:.9rem; font-weight:700; }
+    :root { font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color:#18221f; }
+    body { margin:0; min-height:100vh; background:linear-gradient(180deg,#fffdf9 0%,#edf5f1 100%); }
+    main { width:min(1240px,calc(100% - 32px)); margin:0 auto; padding:58px 0 84px; }
+    header { max-width:800px; margin-bottom:38px; }
+    .eyebrow { font-size:.78rem; font-weight:800; letter-spacing:.16em; text-transform:uppercase; color:#39715f; }
+    h1 { margin:10px 0 12px; font-size:clamp(2.3rem,6vw,4.5rem); line-height:.97; letter-spacing:-.05em; }
+    .lede { margin:0; max-width:720px; color:#65756f; font-size:1.1rem; line-height:1.65; }
+    .theme-section { margin-top:38px; }
+    .theme-head { display:flex; align-items:end; justify-content:space-between; gap:18px; margin-bottom:16px; }
+    .theme-head h2 { margin:0 0 5px; font-size:1.65rem; }
+    .theme-head p { margin:0; color:#6d7c76; max-width:650px; }
+    .demo-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:22px; }
+    .demo-card { min-width:0; background:rgba(255,255,255,.84); border:1px solid #dae5e0; border-radius:28px; padding:26px; box-shadow:0 20px 60px rgba(31,70,57,.07); overflow:hidden; }
+    .future-card { background:linear-gradient(180deg,#0b2029 0%,#071820 100%); border-color:#173c49; color:#d9fbff; box-shadow:0 24px 70px rgba(0,23,32,.25); }
+    .tag { display:inline-flex; padding:7px 11px; border-radius:999px; background:#eef5f1; color:#345f50; font:700 .76rem ui-monospace,SFMono-Regular,Menlo,monospace; }
+    .future-card .tag { background:#102f3b; color:#89f4fa; }
+    .demo-card h3 { margin:14px 0 5px; font-size:1.25rem; }
+    .demo-card > p { margin:0; color:#6c7b75; line-height:1.5; min-height:46px; }
+    .future-card > p { color:#91abb4; }
+    .stage { display:grid; place-items:center; min-height:500px; margin:6px -18px 0; }
+    .result { display:inline-flex; align-items:center; min-height:36px; padding:8px 12px; border-radius:12px; background:#f2f5f3; color:#435951; font-size:.88rem; font-weight:700; }
+    .future-card .result { background:#102c37; color:#9ff8ff; }
 
     radial-select, rotary-select {
       --radial-size: 440px;
-      --radial-radius: 166px;
-      --radial-primary: #173f34;
-      --radial-primary-text: #ffffff;
-      --radial-option-bg: #fbfdfc;
-      --radial-option-text: #244f42;
-      --radial-option-border: #a5cabc;
-      --radial-option-font-size: 16px;
-      --radial-option-width: 108px;
-      --radial-option-height: 126px;
-      --radial-hub-size: 142px;
+      --radial-radius: 164px;
+      --radial-option-font-size: 15px;
+      --radial-hub-size: 140px;
       --radial-hub-font-size: 1.05rem;
-      --radial-shadow: 0 18px 45px rgba(23,63,52,.16);
-      --radial-option-shadow: 0 10px 24px rgba(23,63,52,.10);
     }
-    radial-select::part(option), rotary-select::part(option) { letter-spacing: 0; font-weight: 700; }
-    radial-select::part(hub), rotary-select::part(hub) { border: 7px solid rgba(255,255,255,.92); }
-    radial-select::part(option)[aria-selected="true"], rotary-select::part(option)[aria-selected="true"] { background:#e4f3e9; }
-    rotary-select { --radial-radius: 160px; --radial-option-width: 102px; --radial-option-height: 118px; }
+    radial-select::part(option), rotary-select::part(option) { font-weight:700; letter-spacing:0; }
+    radial-select::part(hub), rotary-select::part(hub) { border:6px solid rgba(255,255,255,.78); }
+    .future-card radial-select::part(hub), .future-card rotary-select::part(hub) { border-color:rgba(127,247,255,.18); }
+    rotary-select { --radial-radius:158px; --radial-option-width:106px; --radial-option-height:118px; }
+    .future-card radial-select, .future-card rotary-select { --radial-option-font-size:14px; }
 
-    @media (max-width: 900px) {
-      .demo-grid { grid-template-columns: 1fr; }
-      .stage { min-height: 500px; }
+    @media (max-width:920px) {
+      .demo-grid { grid-template-columns:1fr; }
+      .stage { min-height:490px; }
     }
-    @media (max-width: 520px) {
-      main { width: min(100% - 20px,1180px); padding-top: 34px; }
-      .demo-card { padding: 22px 16px; border-radius: 22px; }
-      .stage { min-height: 400px; margin-inline:-12px; }
+    @media (max-width:520px) {
+      main { width:min(100% - 18px,1240px); padding-top:34px; }
+      .demo-card { padding:20px 14px; border-radius:22px; }
+      .stage { min-height:395px; margin-inline:-10px; }
       radial-select, rotary-select {
-        --radial-size: 350px;
-        --radial-radius: 130px;
-        --radial-option-width: 84px;
-        --radial-option-height: 98px;
-        --radial-option-font-size: 13px;
-        --radial-hub-size: 108px;
+        --radial-size:350px;
+        --radial-radius:128px;
+        --radial-option-width:88px;
+        --radial-option-height:98px;
+        --radial-option-font-size:12px;
+        --radial-hub-size:108px;
       }
-      rotary-select { --radial-radius: 126px; --radial-option-width: 80px; --radial-option-height: 94px; }
+      rotary-select { --radial-radius:124px; --radial-option-width:84px; --radial-option-height:94px; }
     }
   </style>
 </head>
@@ -68,44 +68,87 @@
     <header>
       <div class="eyebrow">Touch-first web components</div>
       <h1>Radial Select</h1>
-      <p class="lede">An alternative to the traditional dropdown, designed around fingers rather than mouse pointers. Small lists bloom outward; longer lists rotate naturally around the touch point.</p>
+      <p class="lede">Two circular alternatives to the traditional dropdown. The same components can look playful, natural, industrial or futuristic simply by changing attributes and CSS variables.</p>
     </header>
 
-    <div class="demo-grid">
-      <section class="demo-card">
-        <span class="tag">&lt;radial-select&gt;</span>
-        <h2>Small choice sets</h2>
-        <p>Best for up to eight choices. Every option opens at once with generous separation between touch targets.</p>
-        <div class="stage">
-          <radial-select open name="quick-choice" label="Choose option" hint="Tap a choice" shape="petal" value="gamma">
-            <option value="alpha">Alpha</option><option value="beta">Beta</option><option value="gamma" selected>Gamma</option><option value="delta">Delta</option><option value="epsilon">Epsilon</option><option value="zeta">Zeta</option>
-          </radial-select>
+    <section class="theme-section">
+      <div class="theme-head">
+        <div>
+          <h2>Flower theme</h2>
+          <p>Soft organic petals with a different colour for each option, closest to the original Radial Select concept.</p>
         </div>
-        <div class="result" id="radialResult">Selected: Gamma</div>
-      </section>
+      </div>
+      <div class="demo-grid">
+        <article class="demo-card">
+          <span class="tag">&lt;radial-select theme="flower"&gt;</span>
+          <h3>Small choice set</h3>
+          <p>All options bloom out from the centre at the same radius.</p>
+          <div class="stage">
+            <radial-select open theme="flower" shape="petal" name="flower-small" label="Choose option" hint="Tap a petal" value="gamma">
+              <option value="alpha">Alpha</option><option value="beta">Beta</option><option value="gamma" selected>Gamma</option><option value="delta">Delta</option><option value="epsilon">Epsilon</option><option value="zeta">Zeta</option><option value="eta">Eta</option><option value="theta">Theta</option>
+            </radial-select>
+          </div>
+          <div class="result">Selected: Gamma</div>
+        </article>
 
-      <section class="demo-card">
-        <span class="tag">&lt;rotary-select&gt;</span>
-        <h2>Longer choice sets</h2>
-        <p>Rotate with a finger, mouse wheel, keyboard, or the fallback controls to move through a longer list.</p>
-        <div class="stage">
-          <rotary-select open name="long-choice" label="Choose option" hint="Rotate to browse" visible-count="7" shape="petal" value="option-7">
-            <option value="option-1">Option 1</option><option value="option-2">Option 2</option><option value="option-3">Option 3</option><option value="option-4">Option 4</option><option value="option-5">Option 5</option><option value="option-6">Option 6</option><option value="option-7" selected>Option 7</option><option value="option-8">Option 8</option><option value="option-9">Option 9</option><option value="option-10">Option 10</option><option value="option-11">Option 11</option><option value="option-12">Option 12</option><option value="option-13">Option 13</option><option value="option-14">Option 14</option>
-          </rotary-select>
+        <article class="demo-card">
+          <span class="tag">&lt;rotary-select theme="flower"&gt;</span>
+          <h3>Longer choice set</h3>
+          <p>The coloured petals rotate through the visible selection ring.</p>
+          <div class="stage">
+            <rotary-select open theme="flower" shape="petal" name="flower-long" label="Choose option" hint="Rotate to browse" visible-count="7" value="option-7">
+              <option value="option-1">Option 1</option><option value="option-2">Option 2</option><option value="option-3">Option 3</option><option value="option-4">Option 4</option><option value="option-5">Option 5</option><option value="option-6">Option 6</option><option value="option-7" selected>Option 7</option><option value="option-8">Option 8</option><option value="option-9">Option 9</option><option value="option-10">Option 10</option><option value="option-11">Option 11</option><option value="option-12">Option 12</option><option value="option-13">Option 13</option><option value="option-14">Option 14</option>
+            </rotary-select>
+          </div>
+          <div class="result">Selected: Option 7</div>
+        </article>
+      </div>
+    </section>
+
+    <section class="theme-section">
+      <div class="theme-head">
+        <div>
+          <h2>Future theme</h2>
+          <p>The same interaction with a darker technical treatment, cyan edge lighting and a less floral option shape.</p>
         </div>
-        <div class="result" id="rotaryResult">Selected: Option 7</div>
-      </section>
-    </div>
+      </div>
+      <div class="demo-grid">
+        <article class="demo-card future-card">
+          <span class="tag">&lt;radial-select theme="future"&gt;</span>
+          <h3>Technical radial selector</h3>
+          <p>Eight choices using the angled soft-tech shape instead of petals.</p>
+          <div class="stage">
+            <radial-select open theme="future" shape="tech" name="future-small" label="Select mode" hint="Tap a node" value="mode-c">
+              <option value="mode-a">Mode A</option><option value="mode-b">Mode B</option><option value="mode-c" selected>Mode C</option><option value="mode-d">Mode D</option><option value="mode-e">Mode E</option><option value="mode-f">Mode F</option><option value="mode-g">Mode G</option><option value="mode-h">Mode H</option>
+            </radial-select>
+          </div>
+          <div class="result">Selected: Mode C</div>
+        </article>
+
+        <article class="demo-card future-card">
+          <span class="tag">&lt;rotary-select theme="future"&gt;</span>
+          <h3>Technical rotary selector</h3>
+          <p>Long lists retain the same circular gesture in a futuristic UI.</p>
+          <div class="stage">
+            <rotary-select open theme="future" shape="tech" name="future-long" label="Select channel" hint="Rotate to browse" visible-count="7" value="channel-7">
+              <option value="channel-1">Channel 1</option><option value="channel-2">Channel 2</option><option value="channel-3">Channel 3</option><option value="channel-4">Channel 4</option><option value="channel-5">Channel 5</option><option value="channel-6">Channel 6</option><option value="channel-7" selected>Channel 7</option><option value="channel-8">Channel 8</option><option value="channel-9">Channel 9</option><option value="channel-10">Channel 10</option><option value="channel-11">Channel 11</option><option value="channel-12">Channel 12</option><option value="channel-13">Channel 13</option><option value="channel-14">Channel 14</option>
+            </rotary-select>
+          </div>
+          <div class="result">Selected: Channel 7</div>
+        </article>
+      </div>
+    </section>
   </main>
+
   <script>
-    for (const [selector,id] of [['radial-select','radialResult'],['rotary-select','rotaryResult']]) {
-      const control=document.querySelector(selector);
-      control.addEventListener('change',()=>{
-        const option=[...control.querySelectorAll('option')].find(o=>o.value===control.value);
-        document.getElementById(id).textContent=`Selected: ${option?.textContent || control.value}`;
-        setTimeout(()=>control.setAttribute('open',''),0);
+    document.querySelectorAll('radial-select, rotary-select').forEach((control) => {
+      const result = control.closest('.demo-card').querySelector('.result');
+      control.addEventListener('change',() => {
+        const option = [...control.querySelectorAll('option')].find((o) => o.value === control.value);
+        result.textContent = `Selected: ${option?.textContent || control.value}`;
+        setTimeout(() => control.setAttribute('open',''),0);
       });
-    }
+    });
   </script>
 </body>
 </html>
