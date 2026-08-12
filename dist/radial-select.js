@@ -7,9 +7,8 @@ const sharedStyles = `
     --radial-option-bg: #ffffff;
     --radial-option-text: #ffffff;
     --radial-option-border: rgba(255,255,255,.65);
-    --radial-option-width: 112px;
+    --radial-option-width: 108px;
     --radial-option-height: 132px;
-    --radial-option-radius: 58% 58% 46% 46% / 68% 68% 34% 34%;
     --radial-option-font-size: 1rem;
     --radial-hub-size: 112px;
     --radial-hub-font-size: 1.05rem;
@@ -26,6 +25,7 @@ const sharedStyles = `
     --radial-arrow-text: #4d5d74;
     --radial-arrow-size: 46px;
     --radial-shape-clip: none;
+    --radial-option-radius: 28px;
     --radial-petal-1: #ff6486;
     --radial-petal-2: #ffad36;
     --radial-petal-3: #a7d74c;
@@ -53,6 +53,17 @@ const sharedStyles = `
     -webkit-user-select: none;
   }
 
+  .trigger-wrap {
+    position: relative;
+    width: var(--radial-trigger-size);
+    min-height: calc(var(--radial-trigger-size) + 34px);
+    display: grid;
+    justify-items: center;
+    align-content: start;
+    z-index: 7;
+    transition: transform var(--radial-transition), opacity 220ms ease;
+  }
+
   .trigger {
     position: relative;
     width: var(--radial-trigger-size);
@@ -67,8 +78,6 @@ const sharedStyles = `
     cursor: pointer;
     padding: 0;
     overflow: visible;
-    z-index: 7;
-    transition: transform var(--radial-transition), opacity 220ms ease;
   }
 
   .trigger::after {
@@ -88,8 +97,8 @@ const sharedStyles = `
 
   .trigger-flower {
     position: absolute;
-    width: 64px;
-    height: 64px;
+    width: 78px;
+    height: 78px;
     left: 50%;
     top: 50%;
     transform: translate(-50%,-50%);
@@ -99,13 +108,13 @@ const sharedStyles = `
     position: absolute;
     left: 50%;
     top: 50%;
-    width: 20px;
-    height: 30px;
-    margin-left: -10px;
-    margin-top: -25px;
-    border-radius: 60% 60% 46% 46% / 70% 70% 34% 34%;
-    transform-origin: 50% 25px;
+    width: 23px;
+    height: 34px;
+    margin-left: -11.5px;
+    margin-top: -31px;
+    transform-origin: 50% 31px;
     background: linear-gradient(145deg, rgba(255,255,255,.72), rgba(255,255,255,0) 48%), var(--mini-color);
+    clip-path: path("M11.5 34 C7.5 31 4 27 2 21 C0 15 1.5 8 5.5 4 C8.5 1 14.5 0 17.5 3 C22 7 24 14 22 20 C20 26 16 31 11.5 34 Z");
     box-shadow: inset 0 -4px 8px rgba(55,55,80,.08);
   }
 
@@ -113,31 +122,27 @@ const sharedStyles = `
     position: absolute;
     left: 50%;
     top: 50%;
-    width: 48px;
-    min-height: 48px;
+    width: 25px;
+    height: 25px;
     transform: translate(-50%,-50%);
     border-radius: 50%;
-    background: radial-gradient(circle at 32% 26%, rgba(255,255,255,.95), rgba(255,255,255,.32) 34%, transparent 35%), var(--selected-color, #ffffff);
-    border: 3px solid #ffffff;
-    box-shadow: 0 5px 14px rgba(46,55,72,.2);
-    display: grid;
-    place-items: center;
-    padding: 4px;
+    background: radial-gradient(circle at 35% 30%, #ffffff, #f0f2f5 72%);
+    border: 2px solid #ffffff;
+    box-shadow: 0 3px 9px rgba(46,55,72,.2);
     z-index: 2;
+    pointer-events: none;
   }
 
   .trigger-label {
-    display: block;
-    max-width: 42px;
-    color: var(--selected-text, #ffffff);
-    font-size: .61rem;
+    margin-top: 9px;
+    max-width: 160px;
+    color: var(--radial-trigger-text);
+    font-size: .82rem;
     font-weight: 800;
-    line-height: 1.05;
+    line-height: 1.2;
     text-align: center;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    word-break: break-word;
-    text-shadow: 0 1px 2px rgba(0,0,0,.18);
+    overflow-wrap: anywhere;
+    text-shadow: none;
   }
 
   .stage {
@@ -153,7 +158,7 @@ const sharedStyles = `
   }
 
   :host([open]) .stage { opacity: 1; pointer-events: auto; transform: scale(1); }
-  :host([open]) .trigger { opacity: 0; pointer-events: none; transform: scale(.55); }
+  :host([open]) .trigger-wrap { opacity: 0; pointer-events: none; transform: scale(.55); }
 
   .hub {
     width: var(--radial-hub-size);
@@ -178,7 +183,8 @@ const sharedStyles = `
 
   .option {
     position: absolute;
-    left: 50%; top: 50%;
+    left: 50%;
+    top: 50%;
     width: var(--radial-option-width);
     height: var(--radial-option-height);
     border: 2px solid var(--slot-border, var(--radial-option-border));
@@ -201,7 +207,8 @@ const sharedStyles = `
   .option > span {
     display: grid;
     place-items: center;
-    width: 100%; height: 100%;
+    width: 100%;
+    height: 100%;
     padding: 13px;
     text-align: center;
     line-height: 1.1;
@@ -223,11 +230,34 @@ const sharedStyles = `
 
   .option:disabled { cursor: not-allowed; filter: grayscale(.75); opacity: .28; }
 
-  :host([shape="rounded"]) { --radial-option-width: 112px; --radial-option-height: 72px; --radial-option-radius: 26px; }
-  :host([shape="circle"]) { --radial-option-width: 92px; --radial-option-height: 92px; --radial-option-radius: 50%; }
-  :host([shape="petal"]) { --radial-option-width: 106px; --radial-option-height: 132px; --radial-option-radius: 58% 58% 44% 44% / 72% 72% 30% 30%; --radial-shape-clip: none; }
-  :host([shape="hex"]) { --radial-option-radius: 0; --radial-shape-clip: polygon(22% 0,78% 0,100% 50%,78% 100%,22% 100%,0 50%); }
-  :host([shape="tech"]) { --radial-option-width: 108px; --radial-option-height: 82px; --radial-option-radius: 18px 34px 18px 34px; }
+  :host([shape="rounded"]) {
+    --radial-option-width: 112px;
+    --radial-option-height: 72px;
+    --radial-option-radius: 26px;
+    --radial-shape-clip: none;
+  }
+  :host([shape="circle"]) {
+    --radial-option-width: 92px;
+    --radial-option-height: 92px;
+    --radial-option-radius: 50%;
+    --radial-shape-clip: none;
+  }
+  :host([shape="petal"]) {
+    --radial-option-width: 108px;
+    --radial-option-height: 132px;
+    --radial-option-radius: 0;
+    --radial-shape-clip: path("M54 132 C41 125 27 115 17 101 C7 87 2 68 5 49 C8 28 22 10 39 4 C49 0 59 0 69 4 C86 10 100 28 103 49 C106 68 101 87 91 101 C81 115 67 125 54 132 Z");
+  }
+  :host([shape="hex"]) {
+    --radial-option-radius: 0;
+    --radial-shape-clip: polygon(22% 0,78% 0,100% 50%,78% 100%,22% 100%,0 50%);
+  }
+  :host([shape="tech"]) {
+    --radial-option-width: 108px;
+    --radial-option-height: 82px;
+    --radial-option-radius: 18px 34px 18px 34px;
+    --radial-shape-clip: none;
+  }
 
   :host([theme="flower"]) {
     --radial-primary: #ffffff;
@@ -261,8 +291,8 @@ const sharedStyles = `
   :host([theme="future"]) .trigger { box-shadow: 0 0 0 4px #091622, 0 0 0 7px #49dcff, 0 0 0 11px #0c2333, 0 0 26px rgba(62,218,255,.35); }
   :host([theme="future"]) .trigger::after { inset: 12px; border: 2px solid #61e8ff; box-shadow: inset 0 0 12px rgba(76,226,255,.35); }
   :host([theme="future"]) .trigger-flower { display: none; }
-  :host([theme="future"]) .trigger-center { width: 74px; min-height: 74px; background: transparent; border: 0; box-shadow: none; }
-  :host([theme="future"]) .trigger-label { max-width: 66px; color: #effcff; font-size: .72rem; text-shadow: 0 0 8px rgba(79,225,255,.65); }
+  :host([theme="future"]) .trigger-center { width: 56px; height: 56px; background: transparent; border: 0; box-shadow: none; }
+  :host([theme="future"]) .trigger-label { color: #effcff; text-shadow: 0 0 8px rgba(79,225,255,.65); }
   :host([theme="future"]) .hub { background: radial-gradient(circle at 40% 32%, #173d54, #071824 68%); border: 4px solid #49dcff; color: #effcff; box-shadow: 0 0 0 4px #081521, 0 0 0 7px rgba(73,220,255,.45), 0 0 28px rgba(49,202,255,.27); }
   :host([theme="future"]) .option { background: linear-gradient(145deg, rgba(83,154,190,.22), rgba(8,25,38,.08) 55%), var(--slot-bg, var(--radial-option-bg)); text-shadow: 0 0 6px rgba(74,222,255,.4); }
   :host([theme="future"]) .option[aria-selected="true"] { box-shadow: 0 0 0 2px #8af2ff, 0 0 20px rgba(54,210,255,.75), inset 0 0 20px rgba(39,194,255,.22); }
@@ -281,10 +311,13 @@ function makeTemplate({ rotary = false } = {}) {
       ` : ''}
     </style>
     <div class="root" part="root">
-      <button class="trigger" part="trigger" type="button" aria-haspopup="listbox" aria-expanded="false">
-        <span class="trigger-flower" aria-hidden="true"></span>
-        <span class="trigger-center" part="glyph"><span class="trigger-label" part="trigger-label"></span></span>
-      </button>
+      <div class="trigger-wrap">
+        <button class="trigger" part="trigger" type="button" aria-haspopup="listbox" aria-expanded="false">
+          <span class="trigger-flower" aria-hidden="true"></span>
+          <span class="trigger-center" part="glyph"></span>
+        </button>
+        <span class="trigger-label" part="trigger-label"></span>
+      </div>
       <div class="stage" part="stage" role="listbox">
         <div class="hub" part="hub"><strong part="label"></strong><small part="hint"></small></div>
         <div class="options" part="options"></div>
@@ -306,6 +339,7 @@ class SelectorBase extends HTMLElement {
     this.attachShadow({ mode: 'open' });
     this.shadowRoot.append(template.content.cloneNode(true));
     this._internals = this.attachInternals ? this.attachInternals() : null;
+    this.$triggerWrap = this.shadowRoot.querySelector('.trigger-wrap');
     this.$trigger = this.shadowRoot.querySelector('.trigger');
     this.$triggerFlower = this.shadowRoot.querySelector('.trigger-flower');
     this.$triggerCenter = this.shadowRoot.querySelector('.trigger-center');
@@ -335,7 +369,13 @@ class SelectorBase extends HTMLElement {
   }
 
   get options() {
-    return [...this.querySelectorAll(':scope > option')].map((option, index) => ({ value: option.value, label: option.textContent.trim(), disabled: option.disabled, selected: option.selected, index }));
+    return [...this.querySelectorAll(':scope > option')].map((option, index) => ({
+      value: option.value,
+      label: option.textContent.trim(),
+      disabled: option.disabled,
+      selected: option.selected,
+      index
+    }));
   }
 
   get value() { return this.getAttribute('value') ?? this.querySelector(':scope > option[selected]')?.value ?? ''; }
@@ -343,8 +383,20 @@ class SelectorBase extends HTMLElement {
   get disabled() { return this.hasAttribute('disabled'); }
   set disabled(value) { this.toggleAttribute('disabled', Boolean(value)); }
 
-  open() { if (!this.disabled) { this.setAttribute('open',''); this.dispatchEvent(new CustomEvent('open')); } }
-  close() { if (this.hasAttribute('open')) { this.removeAttribute('open'); this.dispatchEvent(new CustomEvent('close')); } }
+  open() {
+    if (!this.disabled) {
+      this.setAttribute('open','');
+      this.dispatchEvent(new CustomEvent('open'));
+    }
+  }
+
+  close() {
+    if (this.hasAttribute('open')) {
+      this.removeAttribute('open');
+      this.dispatchEvent(new CustomEvent('close'));
+    }
+  }
+
   toggle() { this.hasAttribute('open') ? this.close() : this.open(); }
 
   _paletteColor(index) {
@@ -356,6 +408,7 @@ class SelectorBase extends HTMLElement {
   _renderTrigger(selected, options) {
     this.$triggerFlower.innerHTML = '';
     const visible = Math.min(Math.max(options.length, 6), 8);
+
     for (let i = 0; i < visible; i++) {
       const petal = document.createElement('i');
       petal.className = 'mini-petal';
@@ -363,17 +416,16 @@ class SelectorBase extends HTMLElement {
       petal.style.transform = `rotate(${i * 360 / visible}deg)`;
       this.$triggerFlower.append(petal);
     }
-    const selectedIndex = selected?.index ?? 0;
-    const selectedColor = this.getAttribute('theme') === 'future' ? '#143d55' : this._paletteColor(selectedIndex);
-    this.$triggerCenter.style.setProperty('--selected-color', selectedColor);
-    this.$triggerCenter.style.setProperty('--selected-text', this.getAttribute('theme') === 'future' ? '#effcff' : '#ffffff');
+
     this.$triggerLabel.textContent = selected?.label || this.getAttribute('label') || 'Select';
   }
 
   _choose(option) {
     if (option.disabled) return;
     this.setAttribute('value', option.value);
-    [...this.querySelectorAll(':scope > option')].forEach((element) => { element.selected = element.value === option.value; });
+    [...this.querySelectorAll(':scope > option')].forEach((element) => {
+      element.selected = element.value === option.value;
+    });
     this._internals?.setFormValue(option.value);
     this.dispatchEvent(new Event('input', { bubbles: true, composed: true }));
     this.dispatchEvent(new Event('change', { bubbles: true, composed: true }));
@@ -382,7 +434,10 @@ class SelectorBase extends HTMLElement {
 
   _sync() {
     const options = this.options;
-    const selected = options.find((option) => option.value === this.value) || options.find((option) => option.selected) || options[0];
+    const selected = options.find((option) => option.value === this.value) ||
+      options.find((option) => option.selected) ||
+      options[0];
+
     this.$hubLabel.textContent = this.getAttribute('label') || 'Choose an option';
     const hint = this.getAttribute('hint') || '';
     this.$hubHint.textContent = hint;
@@ -398,6 +453,7 @@ class SelectorBase extends HTMLElement {
     const radians = angle * Math.PI / 180;
     const button = document.createElement('button');
     const label = document.createElement('span');
+
     button.type = 'button';
     button.className = 'option';
     button.part = 'option';
@@ -406,17 +462,21 @@ class SelectorBase extends HTMLElement {
     button.setAttribute('aria-selected', String(option.value === this.value));
     label.textContent = option.label;
     button.append(label);
+
     button.style.setProperty('--slot-x', `${Math.cos(radians) * radius}px`);
     button.style.setProperty('--slot-y', `${Math.sin(radians) * radius}px`);
     button.style.setProperty('--slot-opacity', String(opacity));
     button.style.setProperty('--slot-scale', String(scale));
+
     const theme = this.getAttribute('theme') || '';
     const shape = this.getAttribute('shape') || '';
+
     if (theme === 'flower') {
       button.style.setProperty('--slot-bg', this._paletteColor(option.index));
       button.style.setProperty('--slot-text', '#ffffff');
       button.style.setProperty('--slot-border', 'rgba(255,255,255,.78)');
     }
+
     if (shape === 'petal' || shape === 'tech') {
       const rotation = angle + 90;
       button.style.setProperty('--slot-rotate', `${rotation}deg`);
@@ -425,23 +485,36 @@ class SelectorBase extends HTMLElement {
       button.style.setProperty('--slot-rotate', '0deg');
       button.style.setProperty('--slot-counter-rotate', '0deg');
     }
-    button.addEventListener('click', (event) => { event.stopPropagation(); this._choose(option); });
+
+    button.addEventListener('click', (event) => {
+      event.stopPropagation();
+      this._choose(option);
+    });
+
     return button;
   }
 
   _onKeyDown(event) {
-    if (event.key === 'Escape') { this.close(); return; }
-    if ((event.key === 'Enter' || event.key === ' ') && !this.hasAttribute('open')) { event.preventDefault(); this.open(); }
+    if (event.key === 'Escape') {
+      this.close();
+      return;
+    }
+    if ((event.key === 'Enter' || event.key === ' ') && !this.hasAttribute('open')) {
+      event.preventDefault();
+      this.open();
+    }
   }
 }
 
 export class RadialSelect extends SelectorBase {
   constructor() { super(radialTemplate); }
+
   _renderOptions(options) {
     this.$options.innerHTML = '';
     const count = Math.min(options.length, 8);
     if (!count) return;
     const radius = parseFloat(getComputedStyle(this).getPropertyValue('--radial-radius')) || 136;
+
     options.slice(0, 8).forEach((option, index) => {
       const angle = -90 + (index * 360) / count;
       this.$options.append(this._makeOption(option, angle, radius));
@@ -451,6 +524,7 @@ export class RadialSelect extends SelectorBase {
 
 export class RotarySelect extends SelectorBase {
   static get observedAttributes() { return [...super.observedAttributes, 'visible-count']; }
+
   constructor() {
     super(rotaryTemplate);
     this._offset = 0;
@@ -471,7 +545,10 @@ export class RotarySelect extends SelectorBase {
   }
 
   _slotAngle() {
-    const visibleCount = Math.max(3, Math.min(parseInt(this.getAttribute('visible-count') || '7', 10), this.options.length || 7));
+    const visibleCount = Math.max(3, Math.min(
+      parseInt(this.getAttribute('visible-count') || '7', 10),
+      this.options.length || 7
+    ));
     return visibleCount <= 5 ? 54 : 44;
   }
 
@@ -505,8 +582,10 @@ export class RotarySelect extends SelectorBase {
     if (delta < -180) delta += 360;
     this._accumulatedAngle += delta;
     this._lastAngle = angle;
+
     const slotDelta = Math.round(this._accumulatedAngle / this._slotAngle());
     const next = this._dragStartOffset + slotDelta;
+
     if (next !== this._offset) {
       this._offset = next;
       this._renderOptions(this.options);
@@ -514,23 +593,42 @@ export class RotarySelect extends SelectorBase {
     }
   }
 
-  _onPointerUp() { this._lastAngle = null; this._accumulatedAngle = 0; }
-  _onWheel(event) { event.preventDefault(); this.rotate(event.deltaY > 0 || event.deltaX > 0 ? 1 : -1); }
+  _onPointerUp() {
+    this._lastAngle = null;
+    this._accumulatedAngle = 0;
+  }
+
+  _onWheel(event) {
+    event.preventDefault();
+    this.rotate(event.deltaY > 0 || event.deltaX > 0 ? 1 : -1);
+  }
 
   _onKeyDown(event) {
     super._onKeyDown(event);
     if (!this.hasAttribute('open')) return;
-    if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') { event.preventDefault(); this.rotate(-1); }
-    if (event.key === 'ArrowRight' || event.key === 'ArrowDown') { event.preventDefault(); this.rotate(1); }
+
+    if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
+      event.preventDefault();
+      this.rotate(-1);
+    }
+    if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
+      event.preventDefault();
+      this.rotate(1);
+    }
   }
 
   _renderOptions(options) {
     this.$options.innerHTML = '';
     if (!options.length) return;
-    const visibleCount = Math.max(3, Math.min(parseInt(this.getAttribute('visible-count') || '7', 10), options.length));
+
+    const visibleCount = Math.max(3, Math.min(
+      parseInt(this.getAttribute('visible-count') || '7', 10),
+      options.length
+    ));
     const half = Math.floor(visibleCount / 2);
     const radius = parseFloat(getComputedStyle(this).getPropertyValue('--radial-radius')) || 136;
     const slotAngle = this._slotAngle();
+
     for (let i = 0; i < visibleCount; i++) {
       const relative = i - half;
       const raw = this._offset + relative;
@@ -540,6 +638,7 @@ export class RotarySelect extends SelectorBase {
       const edge = Math.abs(relative) / Math.max(1, half);
       const opacity = Math.max(.2, 1 - edge * .66);
       const scale = 1 - edge * .12;
+
       this.$options.append(this._makeOption(option, angle, radius, opacity, scale));
     }
   }
