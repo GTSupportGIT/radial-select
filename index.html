@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Radial Select — touch-first selection controls</title>
-  <script type="module" src="./dist/radial-select.js?v=20260812-1615"></script>
+  <script type="module" src="./dist/radial-select.js?v=20260812-1740"></script>
   <style>
     * { box-sizing: border-box; }
     :root { font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color:#18221f; }
@@ -25,9 +25,9 @@
     .future-config .config-copy p { color:#91abb4; }
     .config-meta { margin-top:10px; font-size:.88rem; font-weight:800; color:#435951; }
     .future-config .config-meta { color:#9ff8ff; }
-    .config-control { display:grid; place-items:center; min-height:245px; }
-    .config-control radial-select { --radial-size:250px; --radial-radius:76px; --radial-option-width:66px; --radial-option-height:82px; --radial-hub-size:68px; --radial-trigger-size:82px; --radial-option-font-size:12px; }
-    .future-config .config-control radial-select { --radial-radius:80px; }
+    .config-control { display:grid; place-items:center; min-height:365px; }
+    #flowerCountPicker { --radial-size:360px; --radial-radius:112px; --radial-option-width:108px; --radial-option-height:132px; --radial-hub-size:82px; --radial-trigger-size:88px; --radial-option-font-size:13px; }
+    #futureCountPicker { --radial-size:280px; --radial-radius:88px; --radial-option-width:108px; --radial-option-height:82px; --radial-hub-size:72px; --radial-trigger-size:84px; --radial-option-font-size:12px; }
     .demo-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:22px; }
     .demo-card { min-width:0; background:rgba(255,255,255,.84); border:1px solid #dae5e0; border-radius:28px; padding:26px; box-shadow:0 20px 60px rgba(31,70,57,.07); overflow:hidden; }
     .future-card { background:linear-gradient(180deg,#0b2029 0%,#071820 100%); border-color:#173c49; color:#d9fbff; box-shadow:0 24px 70px rgba(0,23,32,.25); }
@@ -39,31 +39,12 @@
     .stage { display:grid; place-items:center; min-height:500px; margin:6px -18px 0; }
     .result { display:inline-flex; align-items:center; min-height:36px; padding:8px 12px; border-radius:12px; background:#f2f5f3; color:#435951; font-size:.88rem; font-weight:700; }
     .future-card .result { background:#102c37; color:#9ff8ff; }
-
-    radial-select, rotary-select {
-      --radial-size:440px;
-      --radial-radius:136px;
-      --radial-option-font-size:15px;
-      --radial-hub-size:112px;
-      --radial-hub-font-size:1rem;
-      --radial-trigger-size:112px;
-    }
+    radial-select, rotary-select { --radial-size:440px; --radial-radius:136px; --radial-option-font-size:15px; --radial-hub-size:112px; --radial-hub-font-size:1rem; --radial-trigger-size:112px; }
     radial-select::part(option), rotary-select::part(option) { font-weight:800; letter-spacing:0; }
     rotary-select { --radial-radius:136px; }
     .future-card radial-select, .future-card rotary-select { --radial-option-font-size:14px; --radial-radius:142px; }
-
-    radial-select[theme="future"]::part(glyph), rotary-select[theme="future"]::part(glyph) {
-      border-radius:50%;
-      background:
-        radial-gradient(circle at 50% 50%, #e9fcff 0 4px, #2bdaf3 5px 7px, transparent 8px),
-        repeating-conic-gradient(from -1.5deg, rgba(103,236,255,.95) 0 3deg, transparent 3deg 45deg),
-        radial-gradient(circle, transparent 0 19px, rgba(78,225,250,.92) 20px 21px, transparent 22px);
-      box-shadow:inset 0 0 14px rgba(69,224,255,.18),0 0 12px rgba(65,220,255,.18);
-    }
-
+    radial-select[theme="future"]::part(glyph), rotary-select[theme="future"]::part(glyph) { border-radius:50%; background:radial-gradient(circle at 50% 50%, #e9fcff 0 4px, #2bdaf3 5px 7px, transparent 8px),repeating-conic-gradient(from -1.5deg, rgba(103,236,255,.95) 0 3deg, transparent 3deg 45deg),radial-gradient(circle, transparent 0 19px, rgba(78,225,250,.92) 20px 21px, transparent 22px); box-shadow:inset 0 0 14px rgba(69,224,255,.18),0 0 12px rgba(65,220,255,.18); }
     .playground { margin-top:26px; padding:28px; border:1px solid #d5e3dd; border-radius:30px; background:rgba(255,255,255,.82); box-shadow:0 22px 64px rgba(31,70,57,.08); }
-    .playground-head h3 { margin:0 0 6px; font-size:1.35rem; }
-    .playground-head p { margin:0; color:#6c7b75; line-height:1.55; }
     .playground-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:18px; margin-top:20px; }
     .picker { text-align:center; padding:16px 10px; border:1px solid #e0e9e5; border-radius:20px; background:#fbfdfc; }
     .picker strong { display:block; margin-bottom:4px; }
@@ -77,30 +58,18 @@
     .preview.future-preview .preview-copy p { color:#91abb4; }
     .preview-stage { display:grid; place-items:center; min-height:480px; }
     #playgroundSelect { --radial-size:440px; --radial-radius:136px; }
-
-    @media (max-width:980px) {
-      .config-panel, .preview { grid-template-columns:1fr; }
-      .playground-grid { grid-template-columns:1fr; }
-      .demo-grid { grid-template-columns:1fr; }
-      .stage { min-height:490px; }
-    }
+    @media (max-width:980px) { .config-panel, .preview { grid-template-columns:1fr; } .playground-grid { grid-template-columns:1fr; } .demo-grid { grid-template-columns:1fr; } .stage { min-height:490px; } }
     @media (max-width:520px) {
       main { width:min(100% - 18px,1240px); padding-top:34px; }
       .config-panel, .playground { padding:18px 14px; }
-      .config-control, .picker-stage { min-height:235px; }
-      .config-control radial-select { --radial-size:235px; --radial-radius:70px; --radial-option-width:61px; --radial-option-height:75px; --radial-hub-size:62px; --radial-trigger-size:76px; --radial-option-font-size:10px; }
+      .config-control { min-height:335px; }
+      #flowerCountPicker { --radial-size:330px; --radial-radius:104px; --radial-option-width:108px; --radial-option-height:132px; --radial-hub-size:76px; --radial-trigger-size:82px; --radial-option-font-size:12px; transform:scale(.9); }
+      #futureCountPicker { --radial-size:245px; --radial-radius:74px; --radial-option-width:96px; --radial-option-height:73px; --radial-hub-size:64px; --radial-trigger-size:76px; --radial-option-font-size:10px; }
+      .picker-stage { min-height:235px; }
       .picker radial-select { --radial-size:235px; --radial-radius:70px; --radial-option-width:62px; --radial-option-height:62px; --radial-hub-size:62px; --radial-trigger-size:76px; --radial-option-font-size:10px; }
       .demo-card { padding:20px 14px; border-radius:22px; }
       .stage, .preview-stage { min-height:395px; margin-inline:-10px; }
-      radial-select, rotary-select, #playgroundSelect {
-        --radial-size:350px;
-        --radial-radius:108px;
-        --radial-option-width:82px;
-        --radial-option-height:102px;
-        --radial-option-font-size:12px;
-        --radial-hub-size:92px;
-        --radial-trigger-size:96px;
-      }
+      radial-select, rotary-select, #playgroundSelect { --radial-size:350px; --radial-radius:108px; --radial-option-width:82px; --radial-option-height:102px; --radial-option-font-size:12px; --radial-hub-size:92px; --radial-trigger-size:96px; }
       rotary-select { --radial-radius:108px; }
       .future-card radial-select, .future-card rotary-select { --radial-radius:112px; }
     }
@@ -108,314 +77,29 @@
 </head>
 <body>
   <main>
-    <header>
-      <div class="eyebrow">Touch-first web components</div>
-      <h1>Radial Select</h1>
-      <p class="lede">Two circular alternatives to the traditional dropdown. Tap a compact selector to make the choices grow out from the centre; choosing an option collapses the control back into the button.</p>
-    </header>
-
+    <header><div class="eyebrow">Touch-first web components</div><h1>Radial Select</h1><p class="lede">Two circular alternatives to the traditional dropdown. Tap a compact selector to make the choices grow out from the centre; choosing an option collapses the control back into the button.</p></header>
     <section class="theme-section">
       <div class="theme-head"><div><h2>Flower theme</h2><p>Bright, glossy petals and a compact flower button inspired by the original Radial Select concept.</p></div></div>
-      <div class="config-panel">
-        <div class="config-copy">
-          <h3>Try a different option count</h3>
-          <p>Radial Select is intended for 3–8 choices. This selector changes both radial examples so you can compare the same count in the flower and future designs.</p>
-          <div class="config-meta" id="flowerCountStatus">Both radial examples: 8 options</div>
-        </div>
-        <div class="config-control">
-          <radial-select id="flowerCountPicker" theme="flower" shape="petal" label="Option count" hint="Choose 3–8" value="8">
-            <option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8" selected>8</option>
-          </radial-select>
-        </div>
-      </div>
-
-      <div class="demo-grid">
-        <article class="demo-card">
-          <span class="tag">&lt;radial-select theme="flower"&gt;</span>
-          <h3>Small choice set</h3>
-          <p id="flowerDescription">Eight petals shown at once.</p>
-          <div class="stage">
-            <radial-select id="flowerSmall" theme="flower" shape="petal" label="Choose an option" hint="Tap a petal" value="gamma"></radial-select>
-          </div>
-          <div class="result">Selected: Gamma</div>
-        </article>
-        <article class="demo-card">
-          <span class="tag">&lt;rotary-select theme="flower"&gt;</span>
-          <h3>Longer choice set</h3>
-          <p>Tap to open, rotate through the list, then choose a petal to collapse it.</p>
-          <div class="stage">
-            <rotary-select theme="flower" shape="petal" label="Choose an option" hint="Rotate to browse" visible-count="7" value="option-7">
-              <option value="option-1">Option 1</option><option value="option-2">Option 2</option><option value="option-3">Option 3</option><option value="option-4">Option 4</option><option value="option-5">Option 5</option><option value="option-6">Option 6</option><option value="option-7" selected>Option 7</option><option value="option-8">Option 8</option><option value="option-9">Option 9</option><option value="option-10">Option 10</option><option value="option-11">Option 11</option><option value="option-12">Option 12</option><option value="option-13">Option 13</option><option value="option-14">Option 14</option>
-            </rotary-select>
-          </div>
-          <div class="result">Selected: Option 7</div>
-        </article>
-      </div>
+      <div class="config-panel"><div class="config-copy"><h3>Try a different option count</h3><p>Radial Select is intended for 3–8 choices. This selector changes both radial examples so you can compare the same count in the flower and future designs.</p><div class="config-meta" id="flowerCountStatus">Both radial examples: 8 options</div></div><div class="config-control"><radial-select id="flowerCountPicker" theme="flower" shape="petal" label="Option count" hint="Choose 3–8" value="8"><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8" selected>8</option></radial-select></div></div>
+      <div class="demo-grid"><article class="demo-card"><span class="tag">&lt;radial-select theme="flower"&gt;</span><h3>Small choice set</h3><p id="flowerDescription">Eight petals shown at once.</p><div class="stage"><radial-select id="flowerSmall" theme="flower" shape="petal" label="Choose an option" hint="Tap a petal" value="gamma"></radial-select></div><div class="result">Selected: Gamma</div></article><article class="demo-card"><span class="tag">&lt;rotary-select theme="flower"&gt;</span><h3>Longer choice set</h3><p>Tap to open, rotate through the list, then choose a petal to collapse it.</p><div class="stage"><rotary-select theme="flower" shape="petal" label="Choose an option" hint="Rotate to browse" visible-count="7" value="option-7"><option value="option-1">Option 1</option><option value="option-2">Option 2</option><option value="option-3">Option 3</option><option value="option-4">Option 4</option><option value="option-5">Option 5</option><option value="option-6">Option 6</option><option value="option-7" selected>Option 7</option><option value="option-8">Option 8</option><option value="option-9">Option 9</option><option value="option-10">Option 10</option><option value="option-11">Option 11</option><option value="option-12">Option 12</option><option value="option-13">Option 13</option><option value="option-14">Option 14</option></rotary-select></div><div class="result">Selected: Option 7</div></article></div>
     </section>
-
-    <section class="theme-section">
-      <div class="theme-head"><div><h2>Future theme</h2><p>The same interaction with a darker technical treatment, cyan ring lighting and a radial selector symbol in the closed state.</p></div></div>
-      <div class="config-panel future-config">
-        <div class="config-copy">
-          <h3>Future option-count selector</h3>
-          <p>This is the same 3–8 control rendered in the future theme. Changing it stays synchronised with the flower count control above.</p>
-          <div class="config-meta" id="futureCountStatus">Both radial examples: 8 options</div>
-        </div>
-        <div class="config-control">
-          <radial-select id="futureCountPicker" theme="future" shape="tech" label="Option count" hint="Choose 3–8" value="8">
-            <option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8" selected>8</option>
-          </radial-select>
-        </div>
-      </div>
-
-      <div class="demo-grid">
-        <article class="demo-card future-card">
-          <span class="tag">&lt;radial-select theme="future"&gt;</span>
-          <h3>Technical radial selector</h3>
-          <p id="futureDescription">Eight technical choices shown at once.</p>
-          <div class="stage">
-            <radial-select id="futureSmall" theme="future" shape="tech" label="Choose an option" hint="Tap a node" value="mode-c"></radial-select>
-          </div>
-          <div class="result">Selected: Mode C</div>
-        </article>
-        <article class="demo-card future-card">
-          <span class="tag">&lt;rotary-select theme="future"&gt;</span>
-          <h3>Technical rotary selector</h3>
-          <p>Open, rotate through channels, then select one to collapse the control.</p>
-          <div class="stage">
-            <rotary-select theme="future" shape="tech" label="Choose an option" hint="Rotate to browse" visible-count="7" value="channel-7">
-              <option value="channel-1">Channel 1</option><option value="channel-2">Channel 2</option><option value="channel-3">Channel 3</option><option value="channel-4">Channel 4</option><option value="channel-5">Channel 5</option><option value="channel-6">Channel 6</option><option value="channel-7" selected>Channel 7</option><option value="channel-8">Channel 8</option><option value="channel-9">Channel 9</option><option value="channel-10">Channel 10</option><option value="channel-11">Channel 11</option><option value="channel-12">Channel 12</option><option value="channel-13">Channel 13</option><option value="channel-14">Channel 14</option>
-            </rotary-select>
-          </div>
-          <div class="result">Selected: Channel 7</div>
-        </article>
-      </div>
-    </section>
-
-    <section class="theme-section">
-      <div class="theme-head"><div><h2>Style playground</h2><p>Use Radial Select to configure Radial Select. Change the colour treatment and option geometry independently, then open the preview to see the result.</p></div></div>
-      <div class="playground">
-        <div class="playground-grid">
-          <div class="picker">
-            <strong>Colour theme</strong><small>Five visual treatments</small>
-            <div class="picker-stage">
-              <radial-select id="themePicker" theme="flower" shape="circle" label="Colour theme" hint="Pick a style" value="flower">
-                <option value="flower" selected>Rainbow</option><option value="pastel">Pastel</option><option value="ocean">Ocean</option><option value="sunset">Sunset</option><option value="future">Future</option>
-              </radial-select>
-            </div>
-          </div>
-          <div class="picker">
-            <strong>Option shape</strong><small>Five geometry presets</small>
-            <div class="picker-stage">
-              <radial-select id="shapePicker" theme="flower" shape="circle" label="Option shape" hint="Pick a shape" value="petal">
-                <option value="petal" selected>Petal</option><option value="rounded">Rounded</option><option value="circle">Circle</option><option value="hex">Hex</option><option value="tech">Tech</option>
-              </radial-select>
-            </div>
-          </div>
-          <div class="picker">
-            <strong>Option count</strong><small>Three to eight choices</small>
-            <div class="picker-stage">
-              <radial-select id="playgroundCount" theme="flower" shape="circle" label="Option count" hint="Choose 3–8" value="6">
-                <option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6" selected>6</option><option value="7">7</option><option value="8">8</option>
-              </radial-select>
-            </div>
-          </div>
-        </div>
-
-        <div class="preview" id="previewPanel">
-          <div class="preview-copy">
-            <h4 id="previewTitle">Rainbow · Petal · 6 options</h4>
-            <p>The preview below is the same web component with attributes and CSS variables changed live. The interaction remains identical.</p>
-          </div>
-          <div class="preview-stage">
-            <radial-select id="playgroundSelect" theme="flower" shape="petal" label="Choose an option" hint="Live preview" value="choice-1"></radial-select>
-          </div>
-        </div>
-      </div>
-    </section>
+    <section class="theme-section"><div class="theme-head"><div><h2>Future theme</h2><p>The same interaction with a darker technical treatment, cyan ring lighting and a radial selector symbol in the closed state.</p></div></div><div class="config-panel future-config"><div class="config-copy"><h3>Future option-count selector</h3><p>This is the same 3–8 control rendered in the future theme. Changing it stays synchronised with the flower count control above.</p><div class="config-meta" id="futureCountStatus">Both radial examples: 8 options</div></div><div class="config-control"><radial-select id="futureCountPicker" theme="future" shape="tech" label="Option count" hint="Choose 3–8" value="8"><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8" selected>8</option></radial-select></div></div><div class="demo-grid"><article class="demo-card future-card"><span class="tag">&lt;radial-select theme="future"&gt;</span><h3>Technical radial selector</h3><p id="futureDescription">Eight technical choices shown at once.</p><div class="stage"><radial-select id="futureSmall" theme="future" shape="tech" label="Choose an option" hint="Tap a node" value="mode-c"></radial-select></div><div class="result">Selected: Mode C</div></article><article class="demo-card future-card"><span class="tag">&lt;rotary-select theme="future"&gt;</span><h3>Technical rotary selector</h3><p>Open, rotate through channels, then select one to collapse the control.</p><div class="stage"><rotary-select theme="future" shape="tech" label="Choose an option" hint="Rotate to browse" visible-count="7" value="channel-7"><option value="channel-1">Channel 1</option><option value="channel-2">Channel 2</option><option value="channel-3">Channel 3</option><option value="channel-4">Channel 4</option><option value="channel-5">Channel 5</option><option value="channel-6">Channel 6</option><option value="channel-7" selected>Channel 7</option><option value="channel-8">Channel 8</option><option value="channel-9">Channel 9</option><option value="channel-10">Channel 10</option><option value="channel-11">Channel 11</option><option value="channel-12">Channel 12</option><option value="channel-13">Channel 13</option><option value="channel-14">Channel 14</option></rotary-select></div><div class="result">Selected: Channel 7</div></article></div></section>
+    <section class="theme-section"><div class="theme-head"><div><h2>Style playground</h2><p>Use Radial Select to configure Radial Select. Change the colour treatment and option geometry independently, then open the preview to see the result.</p></div></div><div class="playground"><div class="playground-grid"><div class="picker"><strong>Colour theme</strong><small>Five visual treatments</small><div class="picker-stage"><radial-select id="themePicker" theme="flower" shape="circle" label="Colour theme" hint="Pick a style" value="flower"><option value="flower" selected>Rainbow</option><option value="pastel">Pastel</option><option value="ocean">Ocean</option><option value="sunset">Sunset</option><option value="future">Future</option></radial-select></div></div><div class="picker"><strong>Option shape</strong><small>Five geometry presets</small><div class="picker-stage"><radial-select id="shapePicker" theme="flower" shape="circle" label="Option shape" hint="Pick a shape" value="petal"><option value="petal" selected>Petal</option><option value="rounded">Rounded</option><option value="circle">Circle</option><option value="hex">Hex</option><option value="tech">Tech</option></radial-select></div></div><div class="picker"><strong>Option count</strong><small>Three to eight choices</small><div class="picker-stage"><radial-select id="playgroundCount" theme="flower" shape="circle" label="Option count" hint="Choose 3–8" value="6"><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6" selected>6</option><option value="7">7</option><option value="8">8</option></radial-select></div></div></div><div class="preview" id="previewPanel"><div class="preview-copy"><h4 id="previewTitle">Rainbow · Petal · 6 options</h4><p>The preview below is the same web component with attributes and CSS variables changed live. The interaction remains identical.</p></div><div class="preview-stage"><radial-select id="playgroundSelect" theme="flower" shape="petal" label="Choose an option" hint="Live preview" value="choice-1"></radial-select></div></div></div></section>
   </main>
-
   <script>
-    Promise.all([
-      customElements.whenDefined('radial-select'),
-      customElements.whenDefined('rotary-select')
-    ]).then(() => {
-      function installShapeAwareSelection(control) {
-        if (!control.shadowRoot || control.shadowRoot.querySelector('style[data-shape-aware-selection]')) return;
-        const style = document.createElement('style');
-        style.dataset.shapeAwareSelection = '';
-        style.textContent = `
-          .option:focus-visible {
-            outline: none !important;
-          }
-          .option[aria-selected="true"] {
-            filter: saturate(1.14) brightness(1.08) drop-shadow(0 6px 8px rgba(56,58,88,.18)) !important;
-            border-color: rgba(255,255,255,.98) !important;
-            box-shadow: inset 0 0 0 3px rgba(255,255,255,.84), inset 0 -10px 16px rgba(34,39,66,.07) !important;
-          }
-          :host([theme="future"]) .option[aria-selected="true"] {
-            border-color: #8af2ff !important;
-            filter: brightness(1.1) drop-shadow(0 0 5px rgba(54,210,255,.42)) !important;
-            box-shadow: inset 0 0 0 3px rgba(138,242,255,.68), inset 0 0 20px rgba(39,194,255,.22) !important;
-          }
-
-          /* Clipped shapes need silhouette outlines; a normal border is rectangular before clipping. */
-          :host([shape="petal"]) .option,
-          :host([shape="hex"]) .option {
-            border-color: transparent !important;
-            box-shadow: inset 0 -10px 16px rgba(34,39,66,.07) !important;
-            filter:
-              drop-shadow(0 -1px 0 var(--slot-border, var(--radial-option-border)))
-              drop-shadow(1px 0 0 var(--slot-border, var(--radial-option-border)))
-              drop-shadow(0 1px 0 var(--slot-border, var(--radial-option-border)))
-              drop-shadow(-1px 0 0 var(--slot-border, var(--radial-option-border))) !important;
-          }
-          :host([shape="petal"]) .option:hover:not(:disabled),
-          :host([shape="hex"]) .option:hover:not(:disabled) {
-            filter:
-              saturate(1.08) brightness(1.05)
-              drop-shadow(0 -1px 0 var(--slot-border, var(--radial-option-border)))
-              drop-shadow(1px 0 0 var(--slot-border, var(--radial-option-border)))
-              drop-shadow(0 1px 0 var(--slot-border, var(--radial-option-border)))
-              drop-shadow(-1px 0 0 var(--slot-border, var(--radial-option-border))) !important;
-          }
-          :host([shape="petal"]) .option[aria-selected="true"],
-          :host([shape="hex"]) .option[aria-selected="true"] {
-            border-color: transparent !important;
-            box-shadow: inset 0 -10px 16px rgba(34,39,66,.06) !important;
-            filter:
-              saturate(1.15) brightness(1.09)
-              drop-shadow(0 -2px 0 rgba(255,255,255,.98))
-              drop-shadow(2px 0 0 rgba(255,255,255,.98))
-              drop-shadow(0 2px 0 rgba(255,255,255,.98))
-              drop-shadow(-2px 0 0 rgba(255,255,255,.98))
-              drop-shadow(0 5px 8px rgba(56,58,88,.22)) !important;
-          }
-          :host([shape="petal"]) .option:focus-visible,
-          :host([shape="hex"]) .option:focus-visible {
-            outline: none !important;
-          }
-          :host([theme="future"][shape="petal"]) .option,
-          :host([theme="future"][shape="hex"]) .option {
-            filter:
-              drop-shadow(0 -1px 0 #46dfff)
-              drop-shadow(1px 0 0 #46dfff)
-              drop-shadow(0 1px 0 #46dfff)
-              drop-shadow(-1px 0 0 #46dfff) !important;
-          }
-          :host([theme="future"][shape="petal"]) .option[aria-selected="true"],
-          :host([theme="future"][shape="hex"]) .option[aria-selected="true"] {
-            filter:
-              brightness(1.12)
-              drop-shadow(0 -2px 0 #9af6ff)
-              drop-shadow(2px 0 0 #9af6ff)
-              drop-shadow(0 2px 0 #9af6ff)
-              drop-shadow(-2px 0 0 #9af6ff)
-              drop-shadow(0 0 7px rgba(54,210,255,.65)) !important;
-          }
-        `;
-        control.shadowRoot.append(style);
-      }
-
-      const flowerLabels = [
-        ['alpha','Alpha'], ['beta','Beta'], ['gamma','Gamma'], ['delta','Delta'],
-        ['epsilon','Epsilon'], ['zeta','Zeta'], ['eta','Eta'], ['theta','Theta']
-      ];
-      const futureLabels = [
-        ['mode-a','Mode A'], ['mode-b','Mode B'], ['mode-c','Mode C'], ['mode-d','Mode D'],
-        ['mode-e','Mode E'], ['mode-f','Mode F'], ['mode-g','Mode G'], ['mode-h','Mode H']
-      ];
-      const playgroundLabels = Array.from({length:8},(_,i)=>[`choice-${i+1}`,`Choice ${i+1}`]);
-
-      const flowerSmall = document.getElementById('flowerSmall');
-      const futureSmall = document.getElementById('futureSmall');
-      const flowerCountPicker = document.getElementById('flowerCountPicker');
-      const futureCountPicker = document.getElementById('futureCountPicker');
-      const flowerCountStatus = document.getElementById('flowerCountStatus');
-      const futureCountStatus = document.getElementById('futureCountStatus');
-      const flowerDescription = document.getElementById('flowerDescription');
-      const futureDescription = document.getElementById('futureDescription');
-
-      function rebuild(control, labels, count, fallbackIndex = 0) {
-        const safeCount = Math.max(3, Math.min(8, Number(count) || 8));
-        const previousValue = control.value;
-        const visible = labels.slice(0, safeCount);
-        const selected = visible.some(([value]) => value === previousValue) ? previousValue : visible[Math.min(fallbackIndex, visible.length - 1)][0];
-        control.innerHTML = visible.map(([value,label]) => `<option value="${value}"${value === selected ? ' selected' : ''}>${label}</option>`).join('');
-        control.value = selected;
-        installShapeAwareSelection(control);
-        const result = control.closest('.demo-card')?.querySelector('.result');
-        if (result) result.textContent = `Selected: ${visible.find(([value]) => value === selected)?.[1] || selected}`;
-      }
-
-      function setSharedCount(value, source) {
-        const count = Math.max(3, Math.min(8, Number(value) || 8));
-        if (source !== flowerCountPicker) flowerCountPicker.value = String(count);
-        if (source !== futureCountPicker) futureCountPicker.value = String(count);
-        rebuild(flowerSmall, flowerLabels, count, 2);
-        rebuild(futureSmall, futureLabels, count, 2);
-        flowerCountStatus.textContent = `Both radial examples: ${count} options`;
-        futureCountStatus.textContent = `Both radial examples: ${count} options`;
-        flowerDescription.textContent = `${count} petals shown at once.`;
-        futureDescription.textContent = `${count} technical choices shown at once.`;
-      }
-
-      flowerCountPicker.addEventListener('change',()=>setSharedCount(flowerCountPicker.value,flowerCountPicker));
-      futureCountPicker.addEventListener('change',()=>setSharedCount(futureCountPicker.value,futureCountPicker));
-      setSharedCount(8,null);
-
-      const themePicker = document.getElementById('themePicker');
-      const shapePicker = document.getElementById('shapePicker');
-      const playgroundCount = document.getElementById('playgroundCount');
-      const playgroundSelect = document.getElementById('playgroundSelect');
-      const previewPanel = document.getElementById('previewPanel');
-      const previewTitle = document.getElementById('previewTitle');
-
-      const palettes = {
-        flower:['#ff6486','#ffad36','#a7d74c','#3cc7c0','#4e9df3','#9973eb','#d65ed6','#ff7b71'],
-        pastel:['#f4a7b9','#f3c58f','#d6dc91','#9fd8c7','#9ec5e8','#b6a4df','#d8a7d1','#eeb1a5'],
-        ocean:['#0b7285','#1098ad','#22b8cf','#38d9a9','#20c997','#12b886','#4dabf7','#748ffc'],
-        sunset:['#ff6b4a','#ff8a3d','#ffad33','#ffd43b','#f783ac','#da77f2','#9775fa','#ff8787']
-      };
-      const themeNames = {flower:'Rainbow',pastel:'Pastel',ocean:'Ocean',sunset:'Sunset',future:'Future'};
-      const shapeNames = {petal:'Petal',rounded:'Rounded',circle:'Circle',hex:'Hex',tech:'Tech'};
-
-      function applyPlayground() {
-        const count = Math.max(3,Math.min(8,Number(playgroundCount.value)||6));
-        const chosenTheme = themePicker.value || 'flower';
-        const shape = shapePicker.value || 'petal';
-        const isFuture = chosenTheme === 'future';
-
-        rebuild(playgroundSelect, playgroundLabels, count, 0);
-        playgroundSelect.setAttribute('theme', isFuture ? 'future' : 'flower');
-        playgroundSelect.setAttribute('shape', shape);
-        previewPanel.classList.toggle('future-preview', isFuture);
-
-        if (!isFuture) {
-          const palette = palettes[chosenTheme] || palettes.flower;
-          palette.forEach((color,index)=>playgroundSelect.style.setProperty(`--radial-petal-${index+1}`,color));
-        } else {
-          for (let i=1;i<=8;i++) playgroundSelect.style.removeProperty(`--radial-petal-${i}`);
-        }
-
-        previewTitle.textContent = `${themeNames[chosenTheme]} · ${shapeNames[shape]} · ${count} options`;
-      }
-
-      themePicker.addEventListener('change',applyPlayground);
-      shapePicker.addEventListener('change',applyPlayground);
-      playgroundCount.addEventListener('change',applyPlayground);
-      applyPlayground();
-
-      document.querySelectorAll('radial-select, rotary-select').forEach((control)=>{
-        installShapeAwareSelection(control);
-        if ([flowerCountPicker,futureCountPicker,themePicker,shapePicker,playgroundCount].includes(control)) return;
-        const result = control.closest('.demo-card')?.querySelector('.result');
-        if (!result) return;
-        control.addEventListener('change',()=>{
-          const option=[...control.querySelectorAll('option')].find((o)=>o.value===control.value);
-          result.textContent=`Selected: ${option?.textContent || control.value}`;
-        });
-      });
+    Promise.all([customElements.whenDefined('radial-select'),customElements.whenDefined('rotary-select')]).then(() => {
+      const flowerLabels=[['alpha','Alpha'],['beta','Beta'],['gamma','Gamma'],['delta','Delta'],['epsilon','Epsilon'],['zeta','Zeta'],['eta','Eta'],['theta','Theta']];
+      const futureLabels=[['mode-a','Mode A'],['mode-b','Mode B'],['mode-c','Mode C'],['mode-d','Mode D'],['mode-e','Mode E'],['mode-f','Mode F'],['mode-g','Mode G'],['mode-h','Mode H']];
+      const playgroundLabels=Array.from({length:8},(_,i)=>[`choice-${i+1}`,`Choice ${i+1}`]);
+      const flowerSmall=document.getElementById('flowerSmall'),futureSmall=document.getElementById('futureSmall'),flowerCountPicker=document.getElementById('flowerCountPicker'),futureCountPicker=document.getElementById('futureCountPicker'),flowerCountStatus=document.getElementById('flowerCountStatus'),futureCountStatus=document.getElementById('futureCountStatus'),flowerDescription=document.getElementById('flowerDescription'),futureDescription=document.getElementById('futureDescription');
+      function rebuild(control,labels,count,fallbackIndex=0){const safeCount=Math.max(3,Math.min(8,Number(count)||8));const previousValue=control.value;const visible=labels.slice(0,safeCount);const selected=visible.some(([value])=>value===previousValue)?previousValue:visible[Math.min(fallbackIndex,visible.length-1)][0];control.innerHTML=visible.map(([value,label])=>`<option value="${value}"${value===selected?' selected':''}>${label}</option>`).join('');control.value=selected;const result=control.closest('.demo-card')?.querySelector('.result');if(result)result.textContent=`Selected: ${visible.find(([value])=>value===selected)?.[1]||selected}`;}
+      function setSharedCount(value,source){const count=Math.max(3,Math.min(8,Number(value)||8));if(source!==flowerCountPicker)flowerCountPicker.value=String(count);if(source!==futureCountPicker)futureCountPicker.value=String(count);rebuild(flowerSmall,flowerLabels,count,2);rebuild(futureSmall,futureLabels,count,2);flowerCountStatus.textContent=`Both radial examples: ${count} options`;futureCountStatus.textContent=`Both radial examples: ${count} options`;flowerDescription.textContent=`${count} petals shown at once.`;futureDescription.textContent=`${count} technical choices shown at once.`;}
+      flowerCountPicker.addEventListener('change',()=>setSharedCount(flowerCountPicker.value,flowerCountPicker));futureCountPicker.addEventListener('change',()=>setSharedCount(futureCountPicker.value,futureCountPicker));setSharedCount(8,null);
+      const themePicker=document.getElementById('themePicker'),shapePicker=document.getElementById('shapePicker'),playgroundCount=document.getElementById('playgroundCount'),playgroundSelect=document.getElementById('playgroundSelect'),previewPanel=document.getElementById('previewPanel'),previewTitle=document.getElementById('previewTitle');
+      const palettes={flower:['#ff6486','#ffad36','#a7d74c','#3cc7c0','#4e9df3','#9973eb','#d65ed6','#ff7b71'],pastel:['#f4a7b9','#f3c58f','#d6dc91','#9fd8c7','#9ec5e8','#b6a4df','#d8a7d1','#eeb1a5'],ocean:['#0b7285','#1098ad','#22b8cf','#38d9a9','#20c997','#12b886','#4dabf7','#748ffc'],sunset:['#ff6b4a','#ff8a3d','#ffad33','#ffd43b','#f783ac','#da77f2','#9775fa','#ff8787']};const themeNames={flower:'Rainbow',pastel:'Pastel',ocean:'Ocean',sunset:'Sunset',future:'Future'},shapeNames={petal:'Petal',rounded:'Rounded',circle:'Circle',hex:'Hex',tech:'Tech'};
+      function applyPlayground(){const count=Math.max(3,Math.min(8,Number(playgroundCount.value)||6)),chosenTheme=themePicker.value||'flower',shape=shapePicker.value||'petal',isFuture=chosenTheme==='future';rebuild(playgroundSelect,playgroundLabels,count,0);playgroundSelect.setAttribute('theme',isFuture?'future':'flower');playgroundSelect.setAttribute('shape',shape);previewPanel.classList.toggle('future-preview',isFuture);if(!isFuture){const palette=palettes[chosenTheme]||palettes.flower;palette.forEach((color,index)=>playgroundSelect.style.setProperty(`--radial-petal-${index+1}`,color));}else{for(let i=1;i<=8;i++)playgroundSelect.style.removeProperty(`--radial-petal-${i}`);}previewTitle.textContent=`${themeNames[chosenTheme]} · ${shapeNames[shape]} · ${count} options`;}
+      themePicker.addEventListener('change',applyPlayground);shapePicker.addEventListener('change',applyPlayground);playgroundCount.addEventListener('change',applyPlayground);applyPlayground();
+      document.querySelectorAll('radial-select, rotary-select').forEach(control=>{if([flowerCountPicker,futureCountPicker,themePicker,shapePicker,playgroundCount].includes(control))return;const result=control.closest('.demo-card')?.querySelector('.result');if(!result)return;control.addEventListener('change',()=>{const option=[...control.querySelectorAll('option')].find(o=>o.value===control.value);result.textContent=`Selected: ${option?.textContent||control.value}`;});});
     });
   </script>
 </body>
