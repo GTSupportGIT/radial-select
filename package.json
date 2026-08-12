@@ -1,0 +1,26 @@
+{
+  "name": "radial-select",
+  "version": "0.2.0",
+  "description": "Touch-first radial and rotary alternatives to the traditional HTML select element.",
+  "type": "module",
+  "main": "dist/radial-select.js",
+  "module": "dist/radial-select.js",
+  "exports": {
+    ".": "./dist/radial-select.js"
+  },
+  "files": [
+    "dist/radial-select.js",
+    "README.md",
+    "LICENSE"
+  ],
+  "keywords": [
+    "web-component",
+    "custom-element",
+    "select",
+    "radial-menu",
+    "rotary-menu",
+    "touch",
+    "ui"
+  ],
+  "license": "MIT"
+}
