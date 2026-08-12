@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Radial Select — touch-first selection controls</title>
-  <script type="module" src="./dist/radial-select.js"></script>
+  <script type="module" src="./dist/radial-select.js?v=20260812-1545"></script>
   <style>
     * { box-sizing: border-box; }
     :root { font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color:#18221f; }
@@ -69,7 +69,7 @@
     .picker strong { display:block; margin-bottom:4px; }
     .picker small { color:#7a8983; }
     .picker-stage { display:grid; place-items:center; min-height:270px; }
-    .picker radial-select { --radial-size:260px; --radial-radius:80px; --radial-option-width:70px; --radial-option-height:84px; --radial-hub-size:70px; --radial-trigger-size:82px; --radial-option-font-size:11px; }
+    .picker radial-select { --radial-size:260px; --radial-radius:80px; --radial-option-width:74px; --radial-option-height:74px; --radial-hub-size:70px; --radial-trigger-size:82px; --radial-option-font-size:11px; }
     .preview { margin-top:18px; display:grid; grid-template-columns:minmax(0,1fr) 470px; align-items:center; gap:20px; padding:22px; border-radius:24px; background:#f6faf8; border:1px solid #dfeae5; transition:background .25s ease,color .25s ease,border-color .25s ease; }
     .preview.future-preview { background:#071820; border-color:#173c49; color:#d9fbff; }
     .preview-copy h4 { margin:0 0 7px; font-size:1.2rem; }
@@ -88,7 +88,8 @@
       main { width:min(100% - 18px,1240px); padding-top:34px; }
       .config-panel, .playground { padding:18px 14px; }
       .config-control, .picker-stage { min-height:235px; }
-      .config-control radial-select, .picker radial-select { --radial-size:235px; --radial-radius:70px; --radial-option-width:61px; --radial-option-height:75px; --radial-hub-size:62px; --radial-trigger-size:76px; --radial-option-font-size:10px; }
+      .config-control radial-select { --radial-size:235px; --radial-radius:70px; --radial-option-width:61px; --radial-option-height:75px; --radial-hub-size:62px; --radial-trigger-size:76px; --radial-option-font-size:10px; }
+      .picker radial-select { --radial-size:235px; --radial-radius:70px; --radial-option-width:62px; --radial-option-height:62px; --radial-hub-size:62px; --radial-trigger-size:76px; --radial-option-font-size:10px; }
       .demo-card { padding:20px 14px; border-radius:22px; }
       .stage, .preview-stage { min-height:395px; margin-inline:-10px; }
       radial-select, rotary-select, #playgroundSelect {
@@ -198,7 +199,7 @@
           <div class="picker">
             <strong>Colour theme</strong><small>Five visual treatments</small>
             <div class="picker-stage">
-              <radial-select id="themePicker" theme="flower" shape="petal" label="Colour theme" hint="Pick a style" value="flower">
+              <radial-select id="themePicker" theme="flower" shape="circle" label="Colour theme" hint="Pick a style" value="flower">
                 <option value="flower" selected>Rainbow</option><option value="pastel">Pastel</option><option value="ocean">Ocean</option><option value="sunset">Sunset</option><option value="future">Future</option>
               </radial-select>
             </div>
@@ -206,7 +207,7 @@
           <div class="picker">
             <strong>Option shape</strong><small>Five geometry presets</small>
             <div class="picker-stage">
-              <radial-select id="shapePicker" theme="flower" shape="petal" label="Option shape" hint="Pick a shape" value="petal">
+              <radial-select id="shapePicker" theme="flower" shape="circle" label="Option shape" hint="Pick a shape" value="petal">
                 <option value="petal" selected>Petal</option><option value="rounded">Rounded</option><option value="circle">Circle</option><option value="hex">Hex</option><option value="tech">Tech</option>
               </radial-select>
             </div>
@@ -214,7 +215,7 @@
           <div class="picker">
             <strong>Option count</strong><small>Three to eight choices</small>
             <div class="picker-stage">
-              <radial-select id="playgroundCount" theme="flower" shape="petal" label="Option count" hint="Choose 3–8" value="6">
+              <radial-select id="playgroundCount" theme="flower" shape="circle" label="Option count" hint="Choose 3–8" value="6">
                 <option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6" selected>6</option><option value="7">7</option><option value="8">8</option>
               </radial-select>
             </div>
@@ -244,14 +245,26 @@
         const style = document.createElement('style');
         style.dataset.shapeAwareSelection = '';
         style.textContent = `
+          .option:focus-visible {
+            outline: none !important;
+            filter: saturate(1.08) brightness(1.06) drop-shadow(0 0 3px rgba(255,255,255,.95)) !important;
+          }
           .option[aria-selected="true"] {
-            filter: saturate(1.14) brightness(1.08) !important;
+            filter: saturate(1.14) brightness(1.08) drop-shadow(0 6px 8px rgba(56,58,88,.18)) !important;
             border-color: rgba(255,255,255,.98) !important;
-            box-shadow: inset 0 0 0 3px rgba(255,255,255,.88), inset 0 -10px 16px rgba(34,39,66,.07), 0 12px 28px rgba(56,58,88,.22) !important;
+            box-shadow: inset 0 0 0 3px rgba(255,255,255,.84), inset 0 -10px 16px rgba(34,39,66,.07) !important;
+          }
+          .option[aria-selected="true"]:focus-visible {
+            filter: saturate(1.16) brightness(1.1) drop-shadow(0 0 4px rgba(255,255,255,.98)) drop-shadow(0 6px 8px rgba(56,58,88,.18)) !important;
+          }
+          :host([theme="future"]) .option:focus-visible {
+            outline: none !important;
+            filter: brightness(1.08) drop-shadow(0 0 4px rgba(138,242,255,.9)) !important;
           }
           :host([theme="future"]) .option[aria-selected="true"] {
             border-color: #8af2ff !important;
-            box-shadow: inset 0 0 0 3px rgba(138,242,255,.72), inset 0 0 20px rgba(39,194,255,.22), 0 0 18px rgba(54,210,255,.38) !important;
+            filter: brightness(1.1) drop-shadow(0 0 5px rgba(54,210,255,.42)) !important;
+            box-shadow: inset 0 0 0 3px rgba(138,242,255,.68), inset 0 0 20px rgba(39,194,255,.22) !important;
           }
         `;
         control.shadowRoot.append(style);
