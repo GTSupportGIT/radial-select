@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Radial Select Components</title>
+  <script type="module" src="../dist/radial-select.js"></script>
+  <style>
+    :root { font-family: system-ui, sans-serif; color: #173c30; }
+    body { margin: 0; background: #eef6f1; }
+    main { width: min(1120px, calc(100% - 32px)); margin: 40px auto 80px; }
+    h1 { margin-bottom: 6px; }
+    .lede { margin-top: 0; color: #527267; }
+    .demo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 28px; margin-top: 32px; }
+    .demo-card { background: rgba(255,255,255,.72); border: 1px solid #cfe0d9; border-radius: 24px; padding: 24px; }
+    .demo-card h2 { margin-top: 0; }
+    .demo-card p { color: #607b72; }
+    .stage { display: grid; place-items: center; min-height: 430px; }
+    .result { margin-top: 8px; font-weight: 700; }
+    radial-select, rotary-select {
+      --radial-primary: #174b3a;
+      --radial-option-bg: #f8fbf9;
+      --radial-option-text: #174b3a;
+      --radial-option-border: #a9cdbf;
+      --radial-option-font-size: 18px;
+    }
+    radial-select::part(option), rotary-select::part(option) { letter-spacing: .02em; }
+    code { background: #e0eee8; padding: 2px 6px; border-radius: 6px; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Radial Select</h1>
+    <p class="lede">Two touch-first custom elements: one for small choice sets, one for larger rotating lists.</p>
+
+    <div class="demo-grid">
+      <section class="demo-card">
+        <h2>&lt;radial-select&gt;</h2>
+        <p>Best for up to 8 choices. Every option opens at once around the centre.</p>
+        <div class="stage">
+          <radial-select name="quick-choice" label="Choose option" hint="Tap a choice" shape="rounded" value="gamma">
+            <option value="alpha">Alpha</option>
+            <option value="beta">Beta</option>
+            <option value="gamma" selected>Gamma</option>
+            <option value="delta">Delta</option>
+            <option value="epsilon">Epsilon</option>
+            <option value="zeta">Zeta</option>
+          </radial-select>
+        </div>
+        <div class="result" id="radialResult">Selected: Gamma</div>
+      </section>
+
+      <section class="demo-card">
+        <h2>&lt;rotary-select&gt;</h2>
+        <p>Best for longer lists. Drag around the ring, use the wheel, keyboard, or bottom arrows.</p>
+        <div class="stage">
+          <rotary-select name="long-choice" label="Choose option" hint="Rotate to browse" visible-count="7" shape="rounded" value="option-7">
+            <option value="option-1">Option 1</option>
+            <option value="option-2">Option 2</option>
+            <option value="option-3">Option 3</option>
+            <option value="option-4">Option 4</option>
+            <option value="option-5">Option 5</option>
+            <option value="option-6">Option 6</option>
+            <option value="option-7" selected>Option 7</option>
+            <option value="option-8">Option 8</option>
+            <option value="option-9">Option 9</option>
+            <option value="option-10">Option 10</option>
+            <option value="option-11">Option 11</option>
+            <option value="option-12">Option 12</option>
+            <option value="option-13">Option 13</option>
+            <option value="option-14">Option 14</option>
+          </rotary-select>
+        </div>
+        <div class="result" id="rotaryResult">Selected: Option 7</div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    const radial = document.querySelector('radial-select');
+    const rotary = document.querySelector('rotary-select');
+    radial.addEventListener('change', () => {
+      document.querySelector('#radialResult').textContent = `Selected: ${radial.querySelector(`option[value="${radial.value}"]`)?.textContent || radial.value}`;
+    });
+    rotary.addEventListener('change', () => {
+      document.querySelector('#rotaryResult').textContent = `Selected: ${rotary.querySelector(`option[value="${rotary.value}"]`)?.textContent || rotary.value}`;
+    });
+  </script>
+</body>
+</html>
