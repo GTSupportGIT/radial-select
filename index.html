@@ -18,6 +18,12 @@
     .theme-head { display:flex; align-items:end; justify-content:space-between; gap:18px; margin-bottom:16px; }
     .theme-head h2 { margin:0 0 5px; font-size:1.65rem; }
     .theme-head p { margin:0; color:#6d7c76; max-width:650px; }
+    .config-panel { display:grid; grid-template-columns:minmax(0,1fr) 420px; gap:24px; align-items:center; margin:18px 0 24px; padding:22px 24px; background:rgba(255,255,255,.74); border:1px solid #dae5e0; border-radius:24px; }
+    .config-copy h3 { margin:0 0 6px; font-size:1.18rem; }
+    .config-copy p { margin:0; color:#6c7b75; line-height:1.55; }
+    .config-meta { margin-top:10px; font-size:.88rem; font-weight:800; color:#435951; }
+    .config-control { display:grid; place-items:center; min-height:270px; }
+    .config-control radial-select { --radial-size:270px; --radial-radius:82px; --radial-option-width:70px; --radial-option-height:86px; --radial-hub-size:72px; --radial-trigger-size:86px; --radial-option-font-size:13px; }
     .demo-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:22px; }
     .demo-card { min-width:0; background:rgba(255,255,255,.84); border:1px solid #dae5e0; border-radius:28px; padding:26px; box-shadow:0 20px 60px rgba(31,70,57,.07); overflow:hidden; }
     .future-card { background:linear-gradient(180deg,#0b2029 0%,#071820 100%); border-color:#173c49; color:#d9fbff; box-shadow:0 24px 70px rgba(0,23,32,.25); }
@@ -43,11 +49,15 @@
     .future-card radial-select, .future-card rotary-select { --radial-option-font-size:14px; --radial-radius:142px; }
 
     @media (max-width:920px) {
+      .config-panel { grid-template-columns:1fr; }
       .demo-grid { grid-template-columns:1fr; }
       .stage { min-height:490px; }
     }
     @media (max-width:520px) {
       main { width:min(100% - 18px,1240px); padding-top:34px; }
+      .config-panel { padding:18px 14px; }
+      .config-control { min-height:240px; }
+      .config-control radial-select { --radial-size:240px; --radial-radius:72px; --radial-option-width:62px; --radial-option-height:76px; --radial-hub-size:64px; --radial-trigger-size:78px; --radial-option-font-size:12px; }
       .demo-card { padding:20px 14px; border-radius:22px; }
       .stage { min-height:395px; margin-inline:-10px; }
       radial-select, rotary-select {
@@ -79,14 +89,40 @@
           <p>Bright, glossy petals and a compact flower button inspired by the original Radial Select concept.</p>
         </div>
       </div>
+
+      <div class="config-panel">
+        <div class="config-copy">
+          <h3>Try a different petal count</h3>
+          <p>The standard Radial Select is intended for 3–8 choices. Use Radial Select itself to choose the number of options shown in the main flower below.</p>
+          <div class="config-meta" id="petalCountStatus">Main flower: 8 petals</div>
+        </div>
+        <div class="config-control">
+          <radial-select id="petalCount" theme="flower" shape="petal" label="Petal count" hint="Choose 3–8" value="8" aria-label="Choose petal count">
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8" selected>8</option>
+          </radial-select>
+        </div>
+      </div>
+
       <div class="demo-grid">
         <article class="demo-card">
           <span class="tag">&lt;radial-select theme="flower"&gt;</span>
           <h3>Small choice set</h3>
-          <p>Tap the flower button to bloom all options at once.</p>
+          <p id="flowerSmallDescription">Eight petals shown at once. Change the petal count above to compare layouts.</p>
           <div class="stage">
-            <radial-select theme="flower" shape="petal" name="flower-small" label="Choose an option" hint="Tap a petal" value="gamma">
-              <option value="alpha">Alpha</option><option value="beta">Beta</option><option value="gamma" selected>Gamma</option><option value="delta">Delta</option><option value="epsilon">Epsilon</option><option value="zeta">Zeta</option><option value="eta">Eta</option><option value="theta">Theta</option>
+            <radial-select id="flowerSmall" theme="flower" shape="petal" name="flower-small" label="Choose an option" hint="Tap a petal" value="gamma">
+              <option value="alpha">Alpha</option>
+              <option value="beta">Beta</option>
+              <option value="gamma" selected>Gamma</option>
+              <option value="delta">Delta</option>
+              <option value="epsilon">Epsilon</option>
+              <option value="zeta">Zeta</option>
+              <option value="eta">Eta</option>
+              <option value="theta">Theta</option>
             </radial-select>
           </div>
           <div class="result">Selected: Gamma</div>
@@ -142,8 +178,40 @@
   </main>
 
   <script>
+    const labels = [
+      ['alpha','Alpha'], ['beta','Beta'], ['gamma','Gamma'], ['delta','Delta'],
+      ['epsilon','Epsilon'], ['zeta','Zeta'], ['eta','Eta'], ['theta','Theta']
+    ];
+
+    const flowerSmall = document.getElementById('flowerSmall');
+    const petalCount = document.getElementById('petalCount');
+    const petalCountStatus = document.getElementById('petalCountStatus');
+    const flowerSmallDescription = document.getElementById('flowerSmallDescription');
+
+    function rebuildFlower(count) {
+      const safeCount = Math.max(3, Math.min(8, Number(count) || 8));
+      const previousValue = flowerSmall.value;
+      const visible = labels.slice(0, safeCount);
+      const selected = visible.some(([value]) => value === previousValue) ? previousValue : visible[0][0];
+
+      flowerSmall.innerHTML = visible.map(([value, label]) =>
+        `<option value="${value}"${value === selected ? ' selected' : ''}>${label}</option>`
+      ).join('');
+      flowerSmall.value = selected;
+
+      const result = flowerSmall.closest('.demo-card').querySelector('.result');
+      const selectedLabel = visible.find(([value]) => value === selected)?.[1] || selected;
+      result.textContent = `Selected: ${selectedLabel}`;
+      petalCountStatus.textContent = `Main flower: ${safeCount} petals`;
+      flowerSmallDescription.textContent = `${safeCount} petals shown at once. Change the petal count above to compare layouts.`;
+    }
+
+    petalCount.addEventListener('change', () => rebuildFlower(petalCount.value));
+
     document.querySelectorAll('radial-select, rotary-select').forEach((control) => {
-      const result = control.closest('.demo-card').querySelector('.result');
+      if (control === petalCount) return;
+      const result = control.closest('.demo-card')?.querySelector('.result');
+      if (!result) return;
       control.addEventListener('change', () => {
         const option = [...control.querySelectorAll('option')].find((o) => o.value === control.value);
         result.textContent = `Selected: ${option?.textContent || control.value}`;
