@@ -32,16 +32,15 @@
 
     radial-select, rotary-select {
       --radial-size: 440px;
-      --radial-radius: 164px;
+      --radial-radius: 136px;
       --radial-option-font-size: 15px;
-      --radial-hub-size: 140px;
-      --radial-hub-font-size: 1.05rem;
+      --radial-hub-size: 112px;
+      --radial-hub-font-size: 1rem;
+      --radial-trigger-size: 112px;
     }
-    radial-select::part(option), rotary-select::part(option) { font-weight:700; letter-spacing:0; }
-    radial-select::part(hub), rotary-select::part(hub) { border:6px solid rgba(255,255,255,.78); }
-    .future-card radial-select::part(hub), .future-card rotary-select::part(hub) { border-color:rgba(127,247,255,.18); }
-    rotary-select { --radial-radius:158px; --radial-option-width:106px; --radial-option-height:118px; }
-    .future-card radial-select, .future-card rotary-select { --radial-option-font-size:14px; }
+    radial-select::part(option), rotary-select::part(option) { font-weight:800; letter-spacing:0; }
+    rotary-select { --radial-radius:136px; }
+    .future-card radial-select, .future-card rotary-select { --radial-option-font-size:14px; --radial-radius:142px; }
 
     @media (max-width:920px) {
       .demo-grid { grid-template-columns:1fr; }
@@ -53,13 +52,15 @@
       .stage { min-height:395px; margin-inline:-10px; }
       radial-select, rotary-select {
         --radial-size:350px;
-        --radial-radius:128px;
-        --radial-option-width:88px;
-        --radial-option-height:98px;
+        --radial-radius:108px;
+        --radial-option-width:82px;
+        --radial-option-height:102px;
         --radial-option-font-size:12px;
-        --radial-hub-size:108px;
+        --radial-hub-size:92px;
+        --radial-trigger-size:96px;
       }
-      rotary-select { --radial-radius:124px; --radial-option-width:84px; --radial-option-height:94px; }
+      rotary-select { --radial-radius:108px; }
+      .future-card radial-select, .future-card rotary-select { --radial-radius:112px; }
     }
   </style>
 </head>
@@ -75,7 +76,7 @@
       <div class="theme-head">
         <div>
           <h2>Flower theme</h2>
-          <p>Soft organic petals with a different colour for each option, closest to the original Radial Select concept.</p>
+          <p>Bright, glossy petals and a compact flower button inspired by the original Radial Select concept.</p>
         </div>
       </div>
       <div class="demo-grid">
@@ -84,7 +85,7 @@
           <h3>Small choice set</h3>
           <p>Tap the flower button to bloom all options at once.</p>
           <div class="stage">
-            <radial-select theme="flower" shape="petal" name="flower-small" label="Choose option" hint="Tap a petal" value="gamma">
+            <radial-select theme="flower" shape="petal" name="flower-small" label="Choose an option" hint="Tap a petal" value="gamma">
               <option value="alpha">Alpha</option><option value="beta">Beta</option><option value="gamma" selected>Gamma</option><option value="delta">Delta</option><option value="epsilon">Epsilon</option><option value="zeta">Zeta</option><option value="eta">Eta</option><option value="theta">Theta</option>
             </radial-select>
           </div>
@@ -96,7 +97,7 @@
           <h3>Longer choice set</h3>
           <p>Tap to open, rotate through the list, then choose a petal to collapse it.</p>
           <div class="stage">
-            <rotary-select theme="flower" shape="petal" name="flower-long" label="Choose option" hint="Rotate to browse" visible-count="7" value="option-7">
+            <rotary-select theme="flower" shape="petal" name="flower-long" label="Choose an option" hint="Rotate to browse" visible-count="7" value="option-7">
               <option value="option-1">Option 1</option><option value="option-2">Option 2</option><option value="option-3">Option 3</option><option value="option-4">Option 4</option><option value="option-5">Option 5</option><option value="option-6">Option 6</option><option value="option-7" selected>Option 7</option><option value="option-8">Option 8</option><option value="option-9">Option 9</option><option value="option-10">Option 10</option><option value="option-11">Option 11</option><option value="option-12">Option 12</option><option value="option-13">Option 13</option><option value="option-14">Option 14</option>
             </rotary-select>
           </div>
@@ -109,16 +110,16 @@
       <div class="theme-head">
         <div>
           <h2>Future theme</h2>
-          <p>The same interaction with a darker technical treatment, cyan edge lighting and a less floral option shape.</p>
+          <p>The same interaction with a darker technical treatment, cyan ring lighting and radial control geometry.</p>
         </div>
       </div>
       <div class="demo-grid">
         <article class="demo-card future-card">
           <span class="tag">&lt;radial-select theme="future"&gt;</span>
           <h3>Technical radial selector</h3>
-          <p>Tap the compact control to expand eight technical choices.</p>
+          <p>Tap the compact illuminated control to expand eight technical choices.</p>
           <div class="stage">
-            <radial-select theme="future" shape="tech" name="future-small" label="Select mode" hint="Tap a node" value="mode-c">
+            <radial-select theme="future" shape="tech" name="future-small" label="Choose an option" hint="Tap a node" value="mode-c">
               <option value="mode-a">Mode A</option><option value="mode-b">Mode B</option><option value="mode-c" selected>Mode C</option><option value="mode-d">Mode D</option><option value="mode-e">Mode E</option><option value="mode-f">Mode F</option><option value="mode-g">Mode G</option><option value="mode-h">Mode H</option>
             </radial-select>
           </div>
@@ -130,7 +131,7 @@
           <h3>Technical rotary selector</h3>
           <p>Open, rotate through channels, then select one to collapse the control.</p>
           <div class="stage">
-            <rotary-select theme="future" shape="tech" name="future-long" label="Select channel" hint="Rotate to browse" visible-count="7" value="channel-7">
+            <rotary-select theme="future" shape="tech" name="future-long" label="Choose an option" hint="Rotate to browse" visible-count="7" value="channel-7">
               <option value="channel-1">Channel 1</option><option value="channel-2">Channel 2</option><option value="channel-3">Channel 3</option><option value="channel-4">Channel 4</option><option value="channel-5">Channel 5</option><option value="channel-6">Channel 6</option><option value="channel-7" selected>Channel 7</option><option value="channel-8">Channel 8</option><option value="channel-9">Channel 9</option><option value="channel-10">Channel 10</option><option value="channel-11">Channel 11</option><option value="channel-12">Channel 12</option><option value="channel-13">Channel 13</option><option value="channel-14">Channel 14</option>
             </rotary-select>
           </div>
