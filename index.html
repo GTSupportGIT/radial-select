@@ -239,6 +239,24 @@
       customElements.whenDefined('radial-select'),
       customElements.whenDefined('rotary-select')
     ]).then(() => {
+      function installShapeAwareSelection(control) {
+        if (!control.shadowRoot || control.shadowRoot.querySelector('style[data-shape-aware-selection]')) return;
+        const style = document.createElement('style');
+        style.dataset.shapeAwareSelection = '';
+        style.textContent = `
+          .option[aria-selected="true"] {
+            filter: saturate(1.14) brightness(1.08) !important;
+            border-color: rgba(255,255,255,.98) !important;
+            box-shadow: inset 0 0 0 3px rgba(255,255,255,.88), inset 0 -10px 16px rgba(34,39,66,.07), 0 12px 28px rgba(56,58,88,.22) !important;
+          }
+          :host([theme="future"]) .option[aria-selected="true"] {
+            border-color: #8af2ff !important;
+            box-shadow: inset 0 0 0 3px rgba(138,242,255,.72), inset 0 0 20px rgba(39,194,255,.22), 0 0 18px rgba(54,210,255,.38) !important;
+          }
+        `;
+        control.shadowRoot.append(style);
+      }
+
       const flowerLabels = [
         ['alpha','Alpha'], ['beta','Beta'], ['gamma','Gamma'], ['delta','Delta'],
         ['epsilon','Epsilon'], ['zeta','Zeta'], ['eta','Eta'], ['theta','Theta']
@@ -265,6 +283,7 @@
         const selected = visible.some(([value]) => value === previousValue) ? previousValue : visible[Math.min(fallbackIndex, visible.length - 1)][0];
         control.innerHTML = visible.map(([value,label]) => `<option value="${value}"${value === selected ? ' selected' : ''}>${label}</option>`).join('');
         control.value = selected;
+        installShapeAwareSelection(control);
         const result = control.closest('.demo-card')?.querySelector('.result');
         if (result) result.textContent = `Selected: ${visible.find(([value]) => value === selected)?.[1] || selected}`;
       }
@@ -328,6 +347,7 @@
       applyPlayground();
 
       document.querySelectorAll('radial-select, rotary-select').forEach((control)=>{
+        installShapeAwareSelection(control);
         if ([flowerCountPicker,futureCountPicker,themePicker,shapePicker,playgroundCount].includes(control)) return;
         const result = control.closest('.demo-card')?.querySelector('.result');
         if (!result) return;
