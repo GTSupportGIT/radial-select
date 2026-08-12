@@ -68,7 +68,7 @@
     <header>
       <div class="eyebrow">Touch-first web components</div>
       <h1>Radial Select</h1>
-      <p class="lede">Two circular alternatives to the traditional dropdown. The same components can look playful, natural, industrial or futuristic simply by changing attributes and CSS variables.</p>
+      <p class="lede">Two circular alternatives to the traditional dropdown. Tap a compact selector to make the choices grow out from the centre; choosing an option collapses the control back into the button.</p>
     </header>
 
     <section class="theme-section">
@@ -82,9 +82,9 @@
         <article class="demo-card">
           <span class="tag">&lt;radial-select theme="flower"&gt;</span>
           <h3>Small choice set</h3>
-          <p>All options bloom out from the centre at the same radius.</p>
+          <p>Tap the flower button to bloom all options at once.</p>
           <div class="stage">
-            <radial-select open theme="flower" shape="petal" name="flower-small" label="Choose option" hint="Tap a petal" value="gamma">
+            <radial-select theme="flower" shape="petal" name="flower-small" label="Choose option" hint="Tap a petal" value="gamma">
               <option value="alpha">Alpha</option><option value="beta">Beta</option><option value="gamma" selected>Gamma</option><option value="delta">Delta</option><option value="epsilon">Epsilon</option><option value="zeta">Zeta</option><option value="eta">Eta</option><option value="theta">Theta</option>
             </radial-select>
           </div>
@@ -94,9 +94,9 @@
         <article class="demo-card">
           <span class="tag">&lt;rotary-select theme="flower"&gt;</span>
           <h3>Longer choice set</h3>
-          <p>The coloured petals rotate through the visible selection ring.</p>
+          <p>Tap to open, rotate through the list, then choose a petal to collapse it.</p>
           <div class="stage">
-            <rotary-select open theme="flower" shape="petal" name="flower-long" label="Choose option" hint="Rotate to browse" visible-count="7" value="option-7">
+            <rotary-select theme="flower" shape="petal" name="flower-long" label="Choose option" hint="Rotate to browse" visible-count="7" value="option-7">
               <option value="option-1">Option 1</option><option value="option-2">Option 2</option><option value="option-3">Option 3</option><option value="option-4">Option 4</option><option value="option-5">Option 5</option><option value="option-6">Option 6</option><option value="option-7" selected>Option 7</option><option value="option-8">Option 8</option><option value="option-9">Option 9</option><option value="option-10">Option 10</option><option value="option-11">Option 11</option><option value="option-12">Option 12</option><option value="option-13">Option 13</option><option value="option-14">Option 14</option>
             </rotary-select>
           </div>
@@ -116,9 +116,9 @@
         <article class="demo-card future-card">
           <span class="tag">&lt;radial-select theme="future"&gt;</span>
           <h3>Technical radial selector</h3>
-          <p>Eight choices using the angled soft-tech shape instead of petals.</p>
+          <p>Tap the compact control to expand eight technical choices.</p>
           <div class="stage">
-            <radial-select open theme="future" shape="tech" name="future-small" label="Select mode" hint="Tap a node" value="mode-c">
+            <radial-select theme="future" shape="tech" name="future-small" label="Select mode" hint="Tap a node" value="mode-c">
               <option value="mode-a">Mode A</option><option value="mode-b">Mode B</option><option value="mode-c" selected>Mode C</option><option value="mode-d">Mode D</option><option value="mode-e">Mode E</option><option value="mode-f">Mode F</option><option value="mode-g">Mode G</option><option value="mode-h">Mode H</option>
             </radial-select>
           </div>
@@ -128,9 +128,9 @@
         <article class="demo-card future-card">
           <span class="tag">&lt;rotary-select theme="future"&gt;</span>
           <h3>Technical rotary selector</h3>
-          <p>Long lists retain the same circular gesture in a futuristic UI.</p>
+          <p>Open, rotate through channels, then select one to collapse the control.</p>
           <div class="stage">
-            <rotary-select open theme="future" shape="tech" name="future-long" label="Select channel" hint="Rotate to browse" visible-count="7" value="channel-7">
+            <rotary-select theme="future" shape="tech" name="future-long" label="Select channel" hint="Rotate to browse" visible-count="7" value="channel-7">
               <option value="channel-1">Channel 1</option><option value="channel-2">Channel 2</option><option value="channel-3">Channel 3</option><option value="channel-4">Channel 4</option><option value="channel-5">Channel 5</option><option value="channel-6">Channel 6</option><option value="channel-7" selected>Channel 7</option><option value="channel-8">Channel 8</option><option value="channel-9">Channel 9</option><option value="channel-10">Channel 10</option><option value="channel-11">Channel 11</option><option value="channel-12">Channel 12</option><option value="channel-13">Channel 13</option><option value="channel-14">Channel 14</option>
             </rotary-select>
           </div>
@@ -143,10 +143,9 @@
   <script>
     document.querySelectorAll('radial-select, rotary-select').forEach((control) => {
       const result = control.closest('.demo-card').querySelector('.result');
-      control.addEventListener('change',() => {
+      control.addEventListener('change', () => {
         const option = [...control.querySelectorAll('option')].find((o) => o.value === control.value);
         result.textContent = `Selected: ${option?.textContent || control.value}`;
-        setTimeout(() => control.setAttribute('open',''),0);
       });
     });
   </script>
