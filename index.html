@@ -3,88 +3,108 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Radial Select Components</title>
+  <title>Radial Select — touch-first selection controls</title>
   <script type="module" src="./dist/radial-select.js"></script>
   <style>
-    :root { font-family: system-ui, sans-serif; color: #173c30; }
-    body { margin: 0; background: #eef6f1; }
-    main { width: min(1120px, calc(100% - 32px)); margin: 40px auto 80px; }
-    h1 { margin-bottom: 6px; }
-    .lede { margin-top: 0; color: #527267; }
-    .demo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 28px; margin-top: 32px; }
-    .demo-card { background: rgba(255,255,255,.72); border: 1px solid #cfe0d9; border-radius: 24px; padding: 24px; }
-    .demo-card h2 { margin-top: 0; }
-    .demo-card p { color: #607b72; }
-    .stage { display: grid; place-items: center; min-height: 430px; }
-    .result { margin-top: 8px; font-weight: 700; }
+    * { box-sizing: border-box; }
+    :root { font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: #16241f; }
+    body { margin: 0; min-height: 100vh; background: linear-gradient(180deg,#f7faf8 0%,#edf5f1 100%); }
+    main { width: min(1180px, calc(100% - 32px)); margin: 0 auto; padding: 64px 0 80px; }
+    header { max-width: 760px; margin-bottom: 42px; }
+    .eyebrow { font-size: .78rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: #39715f; }
+    h1 { margin: 10px 0 12px; font-size: clamp(2.3rem,6vw,4.6rem); line-height: .96; letter-spacing: -.055em; }
+    .lede { margin: 0; max-width: 660px; color: #60746d; font-size: 1.12rem; line-height: 1.65; }
+    .demo-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 24px; }
+    .demo-card { min-width: 0; background: rgba(255,255,255,.82); border: 1px solid #d8e5df; border-radius: 28px; padding: 30px; box-shadow: 0 24px 70px rgba(31,70,57,.07); overflow: hidden; }
+    .tag { display:inline-flex; padding:7px 11px; border-radius:999px; background:#e8f3ee; color:#285b4a; font:700 .78rem ui-monospace,SFMono-Regular,Menlo,monospace; }
+    .demo-card h2 { margin: 16px 0 7px; font-size: 1.45rem; letter-spacing: -.025em; }
+    .demo-card > p { margin: 0; color: #697b75; line-height: 1.55; min-height: 48px; }
+    .stage { display: grid; place-items: center; min-height: 520px; margin: 10px -18px 0; }
+    .result { display:inline-flex; align-items:center; min-height:38px; padding:8px 13px; border-radius:12px; background:#f0f5f2; color:#38574d; font-size:.9rem; font-weight:700; }
+
     radial-select, rotary-select {
-      --radial-primary: #174b3a;
-      --radial-option-bg: #f8fbf9;
-      --radial-option-text: #174b3a;
-      --radial-option-border: #a9cdbf;
-      --radial-option-font-size: 18px;
+      --radial-size: 440px;
+      --radial-radius: 170px;
+      --radial-primary: #173f34;
+      --radial-primary-text: #ffffff;
+      --radial-option-bg: #ffffff;
+      --radial-option-text: #244f42;
+      --radial-option-border: #bdd7ce;
+      --radial-option-font-size: 16px;
+      --radial-option-width: 112px;
+      --radial-option-height: 68px;
+      --radial-option-radius: 22px;
+      --radial-hub-size: 132px;
+      --radial-hub-font-size: 1.05rem;
+      --radial-shadow: 0 18px 45px rgba(23,63,52,.16);
+      --radial-option-shadow: 0 8px 22px rgba(23,63,52,.08);
     }
-    radial-select::part(option), rotary-select::part(option) { letter-spacing: .02em; }
-    code { background: #e0eee8; padding: 2px 6px; border-radius: 6px; }
+    radial-select::part(option), rotary-select::part(option) { letter-spacing: 0; font-weight: 700; }
+    radial-select::part(hub), rotary-select::part(hub) { border: 7px solid rgba(255,255,255,.92); }
+    rotary-select { --radial-radius: 162px; }
+
+    @media (max-width: 900px) {
+      .demo-grid { grid-template-columns: 1fr; }
+      .stage { min-height: 500px; }
+    }
+    @media (max-width: 520px) {
+      main { width: min(100% - 20px,1180px); padding-top: 34px; }
+      .demo-card { padding: 22px 16px; border-radius: 22px; }
+      .stage { min-height: 390px; margin-inline:-12px; }
+      radial-select, rotary-select {
+        --radial-size: 350px;
+        --radial-radius: 132px;
+        --radial-option-width: 92px;
+        --radial-option-height: 58px;
+        --radial-option-font-size: 14px;
+        --radial-hub-size: 112px;
+      }
+      rotary-select { --radial-radius: 126px; }
+    }
   </style>
 </head>
 <body>
   <main>
-    <h1>Radial Select</h1>
-    <p class="lede">Two touch-first custom elements: one for small choice sets, one for larger rotating lists.</p>
+    <header>
+      <div class="eyebrow">Touch-first web components</div>
+      <h1>Radial Select</h1>
+      <p class="lede">An alternative to the traditional dropdown, designed around fingers rather than mouse pointers. Small lists bloom outward; longer lists rotate naturally around the touch point.</p>
+    </header>
 
     <div class="demo-grid">
       <section class="demo-card">
-        <h2>&lt;radial-select&gt;</h2>
-        <p>Best for up to 8 choices. Every option opens at once around the centre.</p>
+        <span class="tag">&lt;radial-select&gt;</span>
+        <h2>Small choice sets</h2>
+        <p>Best for up to eight choices. Every option opens at once with generous separation between touch targets.</p>
         <div class="stage">
-          <radial-select name="quick-choice" label="Choose option" hint="Tap a choice" shape="rounded" value="gamma">
-            <option value="alpha">Alpha</option>
-            <option value="beta">Beta</option>
-            <option value="gamma" selected>Gamma</option>
-            <option value="delta">Delta</option>
-            <option value="epsilon">Epsilon</option>
-            <option value="zeta">Zeta</option>
+          <radial-select name="quick-choice" label="Choose" hint="Tap a choice" shape="rounded" value="gamma">
+            <option value="alpha">Alpha</option><option value="beta">Beta</option><option value="gamma" selected>Gamma</option><option value="delta">Delta</option><option value="epsilon">Epsilon</option><option value="zeta">Zeta</option>
           </radial-select>
         </div>
         <div class="result" id="radialResult">Selected: Gamma</div>
       </section>
 
       <section class="demo-card">
-        <h2>&lt;rotary-select&gt;</h2>
-        <p>Best for longer lists. Drag around the ring, use the wheel, keyboard, or bottom arrows.</p>
+        <span class="tag">&lt;rotary-select&gt;</span>
+        <h2>Longer choice sets</h2>
+        <p>Rotate with a finger, mouse wheel, keyboard, or the fallback controls to move through a longer list.</p>
         <div class="stage">
-          <rotary-select name="long-choice" label="Choose option" hint="Rotate to browse" visible-count="7" shape="rounded" value="option-7">
-            <option value="option-1">Option 1</option>
-            <option value="option-2">Option 2</option>
-            <option value="option-3">Option 3</option>
-            <option value="option-4">Option 4</option>
-            <option value="option-5">Option 5</option>
-            <option value="option-6">Option 6</option>
-            <option value="option-7" selected>Option 7</option>
-            <option value="option-8">Option 8</option>
-            <option value="option-9">Option 9</option>
-            <option value="option-10">Option 10</option>
-            <option value="option-11">Option 11</option>
-            <option value="option-12">Option 12</option>
-            <option value="option-13">Option 13</option>
-            <option value="option-14">Option 14</option>
+          <rotary-select name="long-choice" label="Choose" hint="Rotate to browse" visible-count="7" shape="rounded" value="option-7">
+            <option value="option-1">Option 1</option><option value="option-2">Option 2</option><option value="option-3">Option 3</option><option value="option-4">Option 4</option><option value="option-5">Option 5</option><option value="option-6">Option 6</option><option value="option-7" selected>Option 7</option><option value="option-8">Option 8</option><option value="option-9">Option 9</option><option value="option-10">Option 10</option><option value="option-11">Option 11</option><option value="option-12">Option 12</option><option value="option-13">Option 13</option><option value="option-14">Option 14</option>
           </rotary-select>
         </div>
         <div class="result" id="rotaryResult">Selected: Option 7</div>
       </section>
     </div>
   </main>
-
   <script>
-    const radial = document.querySelector('radial-select');
-    const rotary = document.querySelector('rotary-select');
-    radial.addEventListener('change', () => {
-      document.querySelector('#radialResult').textContent = `Selected: ${radial.querySelector(`option[value="${radial.value}"]`)?.textContent || radial.value}`;
-    });
-    rotary.addEventListener('change', () => {
-      document.querySelector('#rotaryResult').textContent = `Selected: ${rotary.querySelector(`option[value="${rotary.value}"]`)?.textContent || rotary.value}`;
-    });
+    for (const [selector,id] of [['radial-select','radialResult'],['rotary-select','rotaryResult']]) {
+      const control=document.querySelector(selector);
+      control.addEventListener('change',()=>{
+        const option=[...control.querySelectorAll('option')].find(o=>o.value===control.value);
+        document.getElementById(id).textContent=`Selected: ${option?.textContent || control.value}`;
+      });
+    }
   </script>
 </body>
 </html>
