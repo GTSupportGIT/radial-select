@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Radial Select — touch-first selection controls</title>
-  <script type="module" src="./dist/radial-select.js?v=20260812-1545"></script>
+  <script type="module" src="./dist/radial-select.js?v=20260812-1615"></script>
   <style>
     * { box-sizing: border-box; }
     :root { font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color:#18221f; }
@@ -247,24 +247,71 @@
         style.textContent = `
           .option:focus-visible {
             outline: none !important;
-            filter: saturate(1.08) brightness(1.06) drop-shadow(0 0 3px rgba(255,255,255,.95)) !important;
           }
           .option[aria-selected="true"] {
             filter: saturate(1.14) brightness(1.08) drop-shadow(0 6px 8px rgba(56,58,88,.18)) !important;
             border-color: rgba(255,255,255,.98) !important;
             box-shadow: inset 0 0 0 3px rgba(255,255,255,.84), inset 0 -10px 16px rgba(34,39,66,.07) !important;
           }
-          .option[aria-selected="true"]:focus-visible {
-            filter: saturate(1.16) brightness(1.1) drop-shadow(0 0 4px rgba(255,255,255,.98)) drop-shadow(0 6px 8px rgba(56,58,88,.18)) !important;
-          }
-          :host([theme="future"]) .option:focus-visible {
-            outline: none !important;
-            filter: brightness(1.08) drop-shadow(0 0 4px rgba(138,242,255,.9)) !important;
-          }
           :host([theme="future"]) .option[aria-selected="true"] {
             border-color: #8af2ff !important;
             filter: brightness(1.1) drop-shadow(0 0 5px rgba(54,210,255,.42)) !important;
             box-shadow: inset 0 0 0 3px rgba(138,242,255,.68), inset 0 0 20px rgba(39,194,255,.22) !important;
+          }
+
+          /* Clipped shapes need silhouette outlines; a normal border is rectangular before clipping. */
+          :host([shape="petal"]) .option,
+          :host([shape="hex"]) .option {
+            border-color: transparent !important;
+            box-shadow: inset 0 -10px 16px rgba(34,39,66,.07) !important;
+            filter:
+              drop-shadow(0 -1px 0 var(--slot-border, var(--radial-option-border)))
+              drop-shadow(1px 0 0 var(--slot-border, var(--radial-option-border)))
+              drop-shadow(0 1px 0 var(--slot-border, var(--radial-option-border)))
+              drop-shadow(-1px 0 0 var(--slot-border, var(--radial-option-border))) !important;
+          }
+          :host([shape="petal"]) .option:hover:not(:disabled),
+          :host([shape="hex"]) .option:hover:not(:disabled) {
+            filter:
+              saturate(1.08) brightness(1.05)
+              drop-shadow(0 -1px 0 var(--slot-border, var(--radial-option-border)))
+              drop-shadow(1px 0 0 var(--slot-border, var(--radial-option-border)))
+              drop-shadow(0 1px 0 var(--slot-border, var(--radial-option-border)))
+              drop-shadow(-1px 0 0 var(--slot-border, var(--radial-option-border))) !important;
+          }
+          :host([shape="petal"]) .option[aria-selected="true"],
+          :host([shape="hex"]) .option[aria-selected="true"] {
+            border-color: transparent !important;
+            box-shadow: inset 0 -10px 16px rgba(34,39,66,.06) !important;
+            filter:
+              saturate(1.15) brightness(1.09)
+              drop-shadow(0 -2px 0 rgba(255,255,255,.98))
+              drop-shadow(2px 0 0 rgba(255,255,255,.98))
+              drop-shadow(0 2px 0 rgba(255,255,255,.98))
+              drop-shadow(-2px 0 0 rgba(255,255,255,.98))
+              drop-shadow(0 5px 8px rgba(56,58,88,.22)) !important;
+          }
+          :host([shape="petal"]) .option:focus-visible,
+          :host([shape="hex"]) .option:focus-visible {
+            outline: none !important;
+          }
+          :host([theme="future"][shape="petal"]) .option,
+          :host([theme="future"][shape="hex"]) .option {
+            filter:
+              drop-shadow(0 -1px 0 #46dfff)
+              drop-shadow(1px 0 0 #46dfff)
+              drop-shadow(0 1px 0 #46dfff)
+              drop-shadow(-1px 0 0 #46dfff) !important;
+          }
+          :host([theme="future"][shape="petal"]) .option[aria-selected="true"],
+          :host([theme="future"][shape="hex"]) .option[aria-selected="true"] {
+            filter:
+              brightness(1.12)
+              drop-shadow(0 -2px 0 #9af6ff)
+              drop-shadow(2px 0 0 #9af6ff)
+              drop-shadow(0 2px 0 #9af6ff)
+              drop-shadow(-2px 0 0 #9af6ff)
+              drop-shadow(0 0 7px rgba(54,210,255,.65)) !important;
           }
         `;
         control.shadowRoot.append(style);
