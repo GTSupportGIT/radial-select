@@ -1,4 +1,4 @@
-const PETAL_PATH = "M39 132 C38 118 34 105 26 91 C18 78 10 64 8 48 C5 28 17 11 34 5 C46 1 62 1 74 5 C91 11 103 28 100 48 C98 64 90 78 82 91 C74 105 70 118 69 132 C61 129 47 129 39 132 Z";
+const PETAL_PATH = "M42 132 C42 118 39 109 31 101 C18 89 11 73 12 55 C13 28 31 8 54 6 C77 8 95 28 96 55 C97 73 90 89 77 101 C69 109 66 118 66 132 C60 129 48 129 42 132 Z";
 
 const sharedStyles = `
   :host {
@@ -22,7 +22,7 @@ const sharedStyles = `
   .trigger:hover{transform:scale(1.045)}
   .trigger:focus-visible,.arrow:focus-visible{outline:3px solid color-mix(in srgb,var(--radial-primary-text),white 55%);outline-offset:4px}
   .trigger-flower{position:absolute;width:78px;height:78px;left:50%;top:50%;transform:translate(-50%,-50%)}
-  .mini-petal{position:absolute;left:50%;top:50%;width:23px;height:34px;margin-left:-11.5px;margin-top:-31px;transform-origin:50% 31px;background:linear-gradient(145deg,rgba(255,255,255,.72),rgba(255,255,255,0) 48%),var(--mini-color);clip-path:path("M8.5 34 C8 30 7 27 5 24 C2 20 1 16 1.5 12 C2 6 6 2 11.5 1 C17 2 21 6 21.5 12 C22 16 21 20 18 24 C16 27 15 30 14.5 34 C13 33 10 33 8.5 34 Z");box-shadow:inset 0 -4px 8px rgba(55,55,80,.08)}
+  .mini-petal{position:absolute;left:50%;top:50%;width:23px;height:34px;margin-left:-11.5px;margin-top:-31px;transform-origin:50% 31px;background:linear-gradient(145deg,rgba(255,255,255,.72),rgba(255,255,255,0) 48%),var(--mini-color);clip-path:path("M8.5 34 C8.5 30 7.5 27 5.5 25 C2.5 21 1.5 17 2 12 C2.5 6 6.5 2 11.5 1.5 C16.5 2 20.5 6 21 12 C21.5 17 20.5 21 17.5 25 C15.5 27 14.5 30 14.5 34 C13 33 10 33 8.5 34 Z");box-shadow:inset 0 -4px 8px rgba(55,55,80,.08)}
   .trigger-center{position:absolute;left:50%;top:50%;width:25px;height:25px;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,#f0f2f5 72%);border:2px solid #fff;box-shadow:0 3px 9px rgba(46,55,72,.2);z-index:2;pointer-events:none}
   .trigger-label{margin-top:9px;max-width:160px;color:var(--radial-trigger-text);font-size:.82rem;font-weight:800;line-height:1.2;text-align:center;overflow-wrap:anywhere;text-shadow:none}
   .stage{position:absolute;inset:0;display:grid;place-items:center;opacity:0;pointer-events:none;transform:scale(.28);transition:transform var(--radial-transition),opacity 240ms ease;transform-origin:50% 50%}
@@ -39,8 +39,8 @@ const sharedStyles = `
   .option--petal{border:0;border-radius:0;clip-path:none;background:transparent;box-shadow:none;overflow:visible}
   .option--petal .petal-svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
   .option--petal .petal-fill{fill:var(--slot-bg,var(--radial-option-bg));stroke:var(--slot-border,var(--radial-option-border));stroke-width:2.1;vector-effect:non-scaling-stroke;filter:drop-shadow(0 10px 12px rgba(50,55,76,.16))}
-  .option--petal .petal-highlight{fill:rgba(255,255,255,.18);pointer-events:none}
-  .option--petal .option-label{padding:14px 11px 28px}
+  .option--petal .petal-highlight{fill:rgba(255,255,255,.16);pointer-events:none}
+  .option--petal .option-label{padding:14px 11px 24px}
   .option--petal[aria-selected="true"]{box-shadow:none;filter:none}
   .option--petal[aria-selected="true"] .petal-fill{stroke:#fff;stroke-width:4;filter:drop-shadow(0 0 8px rgba(255,255,255,.5)) drop-shadow(0 12px 14px rgba(56,58,88,.2))}
   .option--petal:focus-visible{outline:none}.option--petal:focus-visible .petal-fill{stroke:#fff;stroke-width:4;filter:drop-shadow(0 0 9px rgba(255,255,255,.72))}
