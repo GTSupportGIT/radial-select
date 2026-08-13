@@ -1,4 +1,4 @@
-const PETAL_PATH = "M42 132 C42 118 39 109 31 101 C18 89 11 73 12 55 C13 28 31 8 54 6 C77 8 95 28 96 55 C97 73 90 89 77 101 C69 109 66 118 66 132 C60 129 48 129 42 132 Z";
+const PETAL_PATH = "M36 132 C36 122 33 114 27 106 C20 98 12 88 10 73 C7 55 8 36 17 20 C25 6 38 1 54 1 C70 1 83 6 91 20 C100 36 101 55 98 73 C96 88 88 98 81 106 C75 114 72 122 72 132 C62 129 46 129 36 132 Z";
 
 const sharedStyles = `
   :host {
@@ -22,7 +22,7 @@ const sharedStyles = `
   .trigger:hover{transform:scale(1.045)}
   .trigger:focus-visible,.arrow:focus-visible{outline:3px solid color-mix(in srgb,var(--radial-primary-text),white 55%);outline-offset:4px}
   .trigger-flower{position:absolute;width:78px;height:78px;left:50%;top:50%;transform:translate(-50%,-50%)}
-  .mini-petal{position:absolute;left:50%;top:50%;width:23px;height:34px;margin-left:-11.5px;margin-top:-31px;transform-origin:50% 31px;background:linear-gradient(145deg,rgba(255,255,255,.72),rgba(255,255,255,0) 48%),var(--mini-color);clip-path:path("M8.5 34 C8.5 30 7.5 27 5.5 25 C2.5 21 1.5 17 2 12 C2.5 6 6.5 2 11.5 1.5 C16.5 2 20.5 6 21 12 C21.5 17 20.5 21 17.5 25 C15.5 27 14.5 30 14.5 34 C13 33 10 33 8.5 34 Z");box-shadow:inset 0 -4px 8px rgba(55,55,80,.08)}
+  .mini-petal{position:absolute;left:50%;top:50%;width:23px;height:34px;margin-left:-11.5px;margin-top:-31px;transform-origin:50% 31px;background:linear-gradient(145deg,rgba(255,255,255,.72),rgba(255,255,255,0) 48%),var(--mini-color);clip-path:path("M7.5 34 C7.5 31 6.7 28.5 5.5 26.5 C3.5 23 1.5 20 1 15.5 C0.5 10 2 5.5 5.5 2.5 C8 0.5 14.5 0.5 17.5 2.5 C21 5.5 22.5 10 22 15.5 C21.5 20 19.5 23 17.5 26.5 C16.3 28.5 15.5 31 15.5 34 C13.5 33 9.5 33 7.5 34 Z");box-shadow:inset 0 -4px 8px rgba(55,55,80,.08)}
   .trigger-center{position:absolute;left:50%;top:50%;width:25px;height:25px;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,#f0f2f5 72%);border:2px solid #fff;box-shadow:0 3px 9px rgba(46,55,72,.2);z-index:2;pointer-events:none}
   .trigger-label{margin-top:9px;max-width:160px;color:var(--radial-trigger-text);font-size:.82rem;font-weight:800;line-height:1.2;text-align:center;overflow-wrap:anywhere;text-shadow:none}
   .stage{position:absolute;inset:0;display:grid;place-items:center;opacity:0;pointer-events:none;transform:scale(.28);transition:transform var(--radial-transition),opacity 240ms ease;transform-origin:50% 50%}
