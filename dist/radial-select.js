@@ -114,7 +114,7 @@ const sharedStyles = `
     margin-top: -31px;
     transform-origin: 50% 31px;
     background: linear-gradient(145deg, rgba(255,255,255,.72), rgba(255,255,255,0) 48%), var(--mini-color);
-    clip-path: path("M11.5 34 C7.5 31 4 27 2 21 C0 15 1.5 8 5.5 4 C8.5 1 14.5 0 17.5 3 C22 7 24 14 22 20 C20 26 16 31 11.5 34 Z");
+    clip-path: path("M7.5 34 C7.5 30.5 6.5 28 4.5 26 C1 22.5 0 18 1 13 C2 6.5 6.5 1.5 11.5 1 C16.5 1.5 21 6.5 22 13 C23 18 22 22.5 18.5 26 C16.5 28 15.5 30.5 15.5 34 C13.5 33 9.5 33 7.5 34 Z");
     box-shadow: inset 0 -4px 8px rgba(55,55,80,.08);
   }
 
@@ -246,7 +246,7 @@ const sharedStyles = `
     --radial-option-width: 108px;
     --radial-option-height: 132px;
     --radial-option-radius: 0;
-    --radial-shape-clip: path("M54 132 C41 125 27 115 17 101 C7 87 2 68 5 49 C8 28 22 10 39 4 C49 0 59 0 69 4 C86 10 100 28 103 49 C106 68 101 87 91 101 C81 115 67 125 54 132 Z");
+    --radial-shape-clip: path("M39 132 C39 119 35 111 25 103 C10 92 3 76 5 56 C8 30 27 8 50 4 C76 0 99 20 103 46 C107 69 101 89 87 101 C76 110 70 119 69 132 C61 128 47 128 39 132 Z");
   }
   :host([shape="hex"]) {
     --radial-option-width: 112px;
